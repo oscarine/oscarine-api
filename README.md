@@ -16,3 +16,4 @@
 * [Flask](https://flask.palletsprojects.com/en/1.1.x/)
 * [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/)
 * [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/)
+* [Flask-Login](https://flask-login.readthedocs.io/en/latest/)
