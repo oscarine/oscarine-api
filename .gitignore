@@ -128,3 +128,6 @@ dmypy.json
 
 # Pycharm
 .idea/
+
+# SQLite Database file
+app.db

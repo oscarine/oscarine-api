@@ -8,4 +8,11 @@
 * Now set up your virtual environment for this project using the command ```python3 -m venv venv```. We are using Python3.6.
 * Activate your newly created virtual environment using ```source venv/bin/activate```.
 * Now to install the required dependencies run ```pip install -r requirements.txt```.
+* To setup your database run this command now ```flask db upgrade```. This will create the sqlite database ```app.db``` in your root directory.
 * Finally, run the project using ```flask run```.
+
+## Some documentations which may come in handy
+
+* [Flask](https://flask.palletsprojects.com/en/1.1.x/)
+* [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/)
+* [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/)
