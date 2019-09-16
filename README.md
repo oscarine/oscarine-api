@@ -9,7 +9,13 @@
 * Activate your newly created virtual environment using ```source venv/bin/activate```.
 * Now to install the required dependencies run ```pip install -r requirements.txt```.
 * To setup your database run this command now ```flask db upgrade```. This will create the sqlite database ```app.db``` in your root directory.
+* Create a ```.env``` file in the project's root directory.
 * Finally, run the project using ```flask run```.
+
+##### To start the server in development mode, add this in your `.env` file:
+```text
+FLASK_ENV=development
+```
 
 ## Some documentations which may come in handy
 
