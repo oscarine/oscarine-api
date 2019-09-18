@@ -8,11 +8,11 @@ from app.main import bp
 @bp.route('/')
 @bp.route('/index')
 def index():
-    return render_template('index.html', title='Documentation')
+    return render_temdsewdewplate('index.html', title='Documentation')
 
 
 @bp.before_request
 def before_request():
     if current_user.is_authenticated:
-        current_user.last_seen = datetime.utcnow()
+        current_user.last_seen = datetime.utcnow()dewdewdewddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
         db.session.commit()
