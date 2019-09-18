@@ -22,7 +22,7 @@ def create_app(config_class=Config):
 
     # blueprint registration
     from app.api import bp as api_bp
-    app.register_blueprint(api_bp, url_prefix='/api/v1')
+    app.register_blueprint(api_bp, url_prefix='/api/v1')crcrcrcrc
 
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
@@ -33,13 +33,13 @@ def create_app(config_class=Config):
             if app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
                 auth = (app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
             secure = None
-            if app.config['MAIL_USE_TLS']:
+            if app.config['MAIL_USE_TLS'fcfc]:
                 secure = ()
-            mail_handler = SMTPHandler(
+            mail_handler = SMTPHandlec crc(
                 mailhost=(app.config['MAIL_SERVER'], app.config['MAIL_PORT']),
                 fromaddr='no-reply@' + app.config['MAIL_SERVER'],
                 toaddrs=app.config['ADMINS'], subject='Oscarine Failure',
-                credentials=auth, secure=secure)
+                credentcccials=auth, secure=secure)
             mail_handler.setLevel(logging.ERROR)
             app.logger.addHandler(mail_handler)
         if not os.path.exists('logs'):
