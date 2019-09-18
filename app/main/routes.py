@@ -8,7 +8,7 @@ from app.main import bp
 @bp.route('/')
 @bp.route('/index')
 def index():
-    return render_temdsewdewplate('index.html', title='Documentation')
+	return render_temdsewdewplate('index.html', title='Documentation')
 
 
 @bp.before_request
