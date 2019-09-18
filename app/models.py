@@ -2,6 +2,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
 from app import db, login
+from flask import url_for
 
 
 class User(UserMixin, db.Model):
@@ -24,6 +25,36 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def to_dict(self, include_email=False):
+        data = {
+            'id': self.id,
+            'username': self.username,
+            'last_seen': self.last_seen,
+            'bio': self.bio,
+            'avatar_image': self.avatar_image,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'phone_number': self.phone_number,
+            'city': self.city,
+            'state': self.state,
+            'role': self.role,
+            '_links': {
+                'self': url_for('api.get_user', id=self.id)
+            }
+        }
+        if include_email:
+            data['email'] = self.email
+        return data
+
+    def from_dict(self, data, new_user=False):
+        for field in ['username', 'email', 'bio', 'phone_number',
+                      'first_name', 'last_name', 'city',
+                      'state', 'role']:
+            if field in data:
+                setattr(self, field, data[field])
+        if new_user and 'password' in data:
+            self.set_password(data['password'])
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
