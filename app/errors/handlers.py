@@ -6,7 +6,7 @@ from app.api.errors import error_response as api_error_response
 
 '''
 The 'errors/404.html' and 'errors/500.html' are not
-created yet as we will be focusing on API friendly 
+created yet as we will be focusing on API friendly
 errors rather then web based or browser based errors.
 With this approach we are not assuming that API client
 will be the browser instead we are taking the general
