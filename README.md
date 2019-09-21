@@ -23,3 +23,4 @@ FLASK_ENV=development
 * [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/)
 * [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/)
 * [Flask-Login](https://flask-login.readthedocs.io/en/latest/)
+* [Flask-HTTPAuth](https://flask-httpauth.readthedocs.io/en/latest/)
