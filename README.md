@@ -17,6 +17,9 @@
 FLASK_ENV=development
 ```
 
+*Each change on `dev` branch will get automatically deployed on https://oscarine.herokuapp.com/. So, before merging new code in `dev` make sure
+ that the code is thoroughly tested.*
+
 ## Some documentations which may come in handy
 
 * [Flask](https://flask.palletsprojects.com/en/1.1.x/)
