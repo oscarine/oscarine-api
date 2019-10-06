@@ -53,9 +53,7 @@ def login():
     if not password:
         return bad_request('Missing password parameter')
     user = User.query.filter_by(username=username).first_or_404()
-    password_is_correct = False
-    if user:
-        password_is_correct = user.check_password(password)
+    password_is_correct = user.check_password(password)
     if not (user and password_is_correct):
         return error_response(401, 'Bad username or password')
     access_token = create_access_token(identity=username)
