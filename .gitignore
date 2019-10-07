@@ -57,3 +57,9 @@ env/
 
 # Development database
 *.db
+
+# Pycharm
+.idea
+
+# VSCode
+.vscode

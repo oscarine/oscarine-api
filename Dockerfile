@@ -15,7 +15,7 @@ RUN apt-get install -y \
 WORKDIR /app
 COPY requirements requirements
 
-COPY [ "assets", "package.json", "webpack.config.js", "./" ]
+COPY [ "assets", "package.json", "./" ]
 
 RUN useradd -m sid
 RUN chown -R sid:sid /app

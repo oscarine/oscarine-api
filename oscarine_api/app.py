@@ -13,8 +13,7 @@ from oscarine_api.extensions import (
     db,
     debug_toolbar,
     login_manager,
-    migrate,
-    webpack,
+    migrate
 )
 
 
@@ -43,7 +42,6 @@ def register_extensions(app):
     login_manager.init_app(app)
     debug_toolbar.init_app(app)
     migrate.init_app(app, db)
-    webpack.init_app(app)
     return None
 
 
