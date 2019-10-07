@@ -2,14 +2,11 @@
 """Public section, including homepage and signup."""
 from flask import (
     Blueprint,
-    current_app,
     flash,
     redirect,
-    render_template,
-    request,
     url_for,
 )
-from flask_login import login_required, login_user, logout_user
+from flask_login import login_required, logout_user
 
 from oscarine_api.extensions import login_manager
 from oscarine_api.user.models import User
