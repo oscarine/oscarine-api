@@ -1,15 +1,19 @@
 from app.api import bp
-from flask import jsonify, url_for, request, g, abort
+from flask import jsonify, url_for, request
 from app.models import User
 from app import db
-from app.api.errors import bad_request
-from app.api.auth import token_auth
+from app.api.errors import bad_request, error_response
+from flask_jwt_extended import jwt_required, get_jwt_identity,\
+    create_access_token
 
 
 @bp.route('/users/<int:id>', methods=['GET'])
-@token_auth.login_required
+@jwt_required
 def get_user(id):
-    return jsonify(User.query.get_or_404(id).to_dict())
+    user = User.query.get_or_404(id)
+    if user.username == get_jwt_identity():
+        return jsonify(user.to_dict())
+    return error_response(401)
 
 
 @bp.route('/users', methods=['GET'])
@@ -38,14 +42,29 @@ def create_user():
     return response
 
 
-@bp.route('/users/<int:id>', methods=['PUT'])
-@token_auth.login_required
-def update_user(id):
-    if g.current_user.id != id:
-        # prevents a user from trying to
-        # modify another user's account
-        abort(403)
-    user = User.query.get_or_404(id)
+@bp.route('/login', methods=['POST'])
+def login():
+    if not request.is_json:
+        return bad_request('Missing JSON in request')
+    username = request.json.get('username', None)
+    password = request.json.get('password', None)
+    if not username:
+        return bad_request('Missing username parameter')
+    if not password:
+        return bad_request('Missing password parameter')
+    user = User.query.filter_by(username=username).first_or_404()
+    password_is_correct = user.check_password(password)
+    if not (user and password_is_correct):
+        return error_response(401, 'Bad username or password')
+    access_token = create_access_token(identity=username)
+    return jsonify(access_token=access_token), 200
+
+
+@bp.route('/users', methods=['PUT'])
+@jwt_required
+def update_user():
+    current_user = get_jwt_identity()
+    user = User.query.filter_by(username=current_user).first_or_404()
     data = request.get_json() or {}
     if 'username' in data and data['username'] != user.username and \
             User.query.filter_by(username=data['username']).first():
