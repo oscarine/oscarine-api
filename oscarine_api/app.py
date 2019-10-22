@@ -13,7 +13,8 @@ from oscarine_api.extensions import (
     debug_toolbar,
     login_manager,
     migrate,
-    jwt
+    jwt,
+    mail
 )
 
 
@@ -41,6 +42,7 @@ def register_extensions(app):
     debug_toolbar.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
+    mail.init_app(app)
     return None
 
 

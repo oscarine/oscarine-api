@@ -3,7 +3,7 @@
 from flask import Blueprint, request, jsonify, url_for
 from oscarine_api.user.models import User
 from oscarine_api.errors import bad_request, error_response
-from flask_jwt_extended import get_jwt_identity, jwt_required, create_access_token
+from flask_jwt_extended import get_jwt_identity, jwt_required, create_access_token, decode_token
 from oscarine_api.extensions import db
 
 blueprint = Blueprint("user", __name__, url_prefix="/api/v1", static_folder="../static")
@@ -31,6 +31,7 @@ def create_user():
         return bad_request('please use a different email address')
     user = User()
     user.from_dict(data, new_user=True)
+    user.verify_email()
     db.session.add(user)
     db.session.commit()
     response = jsonify(user.to_dict())
@@ -38,6 +39,20 @@ def create_user():
     response.headers['Location'] = url_for('user.get_user', id=user.id)
     return response
 
+@blueprint.route("/confirm_email/<mail_token>", methods=['GET'])
+def confirm_email(mail_token):
+    """verify email via jwt"""
+    current_user = decode_token(mail_token)
+    user = User.query.filter_by(username=current_user['identity']).first_or_404()
+    user.email_verified()
+    db.session.commit()
+    response = jsonify({
+                        "success": "true",
+                        "message": "your email has been successfully confirmed"
+                        })
+    response.status_code = 201
+    response.headers['Location'] = url_for('user.get_user', id=user.id)
+    return response
 
 @blueprint.route('/login', methods=['POST'])
 def login():

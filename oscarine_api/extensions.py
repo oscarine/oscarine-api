@@ -7,6 +7,7 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
+from flask_mail import Mail 
 
 bcrypt = Bcrypt()
 login_manager = LoginManager()
@@ -15,3 +16,4 @@ migrate = Migrate()
 cache = Cache()
 debug_toolbar = DebugToolbarExtension()
 jwt = JWTManager()
+mail = Mail()

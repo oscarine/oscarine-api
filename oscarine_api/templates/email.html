@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<style type="text/css">
+        .card {
+            width: 350px;
+            margin: auto;
+            margin-top: 10px;
+            border: 1px solid #eee;
+            box-shadow: 0 2px 3px #ccc;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .header {
+            background-color: #33cabb;
+            padding: 20px;
+        }
+        .link {
+            display: block;
+            width: 115px;
+            height: 25px;
+            margin: 10px auto;
+            background: #33cabb;
+            padding: 10px 15px;
+            text-align: center;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            }
+
+        .link:hover {
+            color: grey;
+            cursor: pointer;
+            
+        }
+
+    </style>
+    </head>
+
+<body>
+    <div class="card">
+            <div class="header">
+                <b style="color: white;">OSCARINE</b>
+            </div>
+            <h1>Hi,<div style="text-transform: uppercase">{{first_name}}</div></h1>
+
+            <h5 style="color: grey">
+                We're excited to have you get started. First, you need to confirm your account. Just press the button below to confirm your email. 
+            </h5>
+            <br>
+            <a class="link" href="{{ link }}" >Confirm</a>
+            If that doesn't work, copy and paste the following link in your browser: {{link}}
+
+            <h5 style="color: grey">If you have any questions, just reply to this email—we're always happy to help out.</h5>
+
+            The Oscarine Team
+    </div>
+</body>
+</html>

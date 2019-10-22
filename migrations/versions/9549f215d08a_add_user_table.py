@@ -1,9 +1,7 @@
 """Add user table
-
 Revision ID: 9549f215d08a
 Revises: 
 Create Date: 2019-10-08 21:12:15.135952
-
 """
 from alembic import op
 import sqlalchemy as sa

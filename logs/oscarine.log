@@ -1,0 +1,91 @@
+2019-10-06 16:56:08,185 INFO: Oscarine startup [in D:\projects\aoscarine\oscarine-api\app\__init__.py:64]
+2019-10-06 17:18:16,742 INFO: Oscarine startup [in D:\projects\aoscarine\oscarine-api\app\__init__.py:64]
+2019-10-06 17:18:41,123 INFO: Oscarine startup [in D:\projects\aoscarine\oscarine-api\app\__init__.py:64]
+2019-10-06 17:19:52,293 ERROR: Exception on /users [GET] [in c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\app.py:1891]
+Traceback (most recent call last):
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\app.py", line 1925, in dispatch_request
+    self.raise_routing_exception(req)
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\app.py", line 1907, in raise_routing_exception
+    raise request.routing_exception
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\ctx.py", line 350, in match_request
+    result = self.url_adapter.match(return_rule=True)
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\werkzeug\routing.py", line 1786, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\app.py", line 1815, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\app.py", line 1743, in handle_http_exception
+    return handler(e)
+  File "D:\projects\aoscarine\oscarine-api\app\errors\handlers.py", line 42, in not_found_error
+    return render_template('errors/404.html'), 404
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\templating.py", line 138, in render_template
+    ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "C:\Users\Aman Zaid\AppData\Roaming\Python\Python37\site-packages\jinja2\environment.py", line 869, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "C:\Users\Aman Zaid\AppData\Roaming\Python\Python37\site-packages\jinja2\environment.py", line 830, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "C:\Users\Aman Zaid\AppData\Roaming\Python\Python37\site-packages\jinja2\environment.py", line 804, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "C:\Users\Aman Zaid\AppData\Roaming\Python\Python37\site-packages\jinja2\loaders.py", line 113, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\templating.py", line 60, in get_source
+    return self._get_source_fast(environment, template)
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\templating.py", line 89, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: errors/404.html
+2019-10-06 17:20:30,365 ERROR: Exception on /users/1 [GET] [in c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\app.py:1891]
+Traceback (most recent call last):
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\app.py", line 1925, in dispatch_request
+    self.raise_routing_exception(req)
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\app.py", line 1907, in raise_routing_exception
+    raise request.routing_exception
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\ctx.py", line 350, in match_request
+    result = self.url_adapter.match(return_rule=True)
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\werkzeug\routing.py", line 1786, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\app.py", line 1815, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\app.py", line 1743, in handle_http_exception
+    return handler(e)
+  File "D:\projects\aoscarine\oscarine-api\app\errors\handlers.py", line 42, in not_found_error
+    return render_template('errors/404.html'), 404
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\templating.py", line 138, in render_template
+    ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "C:\Users\Aman Zaid\AppData\Roaming\Python\Python37\site-packages\jinja2\environment.py", line 869, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "C:\Users\Aman Zaid\AppData\Roaming\Python\Python37\site-packages\jinja2\environment.py", line 830, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "C:\Users\Aman Zaid\AppData\Roaming\Python\Python37\site-packages\jinja2\environment.py", line 804, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "C:\Users\Aman Zaid\AppData\Roaming\Python\Python37\site-packages\jinja2\loaders.py", line 113, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\templating.py", line 60, in get_source
+    return self._get_source_fast(environment, template)
+  File "c:\users\aman zaid\appdata\local\programs\python\python37\lib\site-packages\flask\templating.py", line 89, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: errors/404.html
+2019-10-06 17:47:44,604 INFO: Oscarine startup [in D:\projects\aoscarine\oscarine-api\app\__init__.py:64]
+2019-10-06 17:47:56,748 INFO: Oscarine startup [in D:\projects\aoscarine\oscarine-api\app\__init__.py:64]
+2019-10-06 17:50:09,492 INFO: Oscarine startup [in D:\projects\aoscarine\oscarine-api\app\__init__.py:64]
+2019-10-06 17:51:37,946 INFO: Oscarine startup [in D:\projects\aoscarine\oscarine-api\app\__init__.py:64]
