@@ -52,10 +52,6 @@ env/
 # npm
 /node_modules/
 
-# webpack-built files
-/oscarine_api/static/build/
-/oscarine_api/webpack/manifest.json
-
 # Configuration
 .env
 

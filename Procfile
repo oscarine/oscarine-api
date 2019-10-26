@@ -1,1 +1,1 @@
-web: flask db upgrade; gunicorn oscarine_api.app:create_app\(\) -b 0.0.0.0:$PORT -w 3
+web: alembic upgrade head; gunicorn app.main:app -w 4 -k uvicorn.workers.UvicornWorker
