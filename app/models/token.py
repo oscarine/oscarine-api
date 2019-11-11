@@ -7,3 +7,7 @@ class Token(BaseModel):
 
 class TokenPayload(BaseModel):
     user_id: int = None
+
+
+class OwnerTokenPayload(BaseModel):
+    owner_id: int = None
