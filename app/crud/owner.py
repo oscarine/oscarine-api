@@ -1,6 +1,5 @@
 from typing import Optional
 from fastapi.encoders import jsonable_encoder
-from fastapi import HTTPException
 
 from sqlalchemy.orm import Session
 from app.db_models.owner import Owner
