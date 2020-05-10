@@ -1,11 +1,12 @@
 # OSCARINE-API
-*API to be consumed by Oscarine android and web clients*
 
 ## Quickstart
 *Run the following commands to bootstrap your development environment*
 
-* `git clone https://github.com/Haider8/oscarine-api`
+* `git clone https://github.com/oscarine/oscarine-api`
 * `cd oscarine-api`
+* `python3 -m venv venv`
+* `source venv/bin/activate`
 * `pip install -r requirements/dev.txt`
 * `cp .env.example .env`
 * `uvicorn app.main:app --reload`
@@ -18,7 +19,7 @@
 sudo apt-get update
 sudo apt-get install postgresql postgresql-contrib libssl-dev
 ```
-* Now create the database. For that we first open the psql shell. Go the directory where your postgres file is stored.
+* Now create the database. For that we first open the psql shell. Go to the directory where your postgres file is stored
 ```text
 # For linux users
 sudo -u postgres psql
@@ -31,6 +32,17 @@ psql -d postgres
 CREATE USER oscarine WITH PASSWORD 'password';
 CREATE DATABASE oscarine_db WITH OWNER oscarine;
 ```
-* If you have not followed the above commands exactly or your owner, database name is different please edit the `.env` file accordingly. 
+* After that we can run migrations using alembic
+```text
+alembic upgrade head
+```
+* If you have not followed the above commands exactly please edit the `.env` file accordingly. 
+
+## During Development
+* We can create a revision file whenever we change the database schema
+```text
+alembic revision -m "Your revision message"
+```
+
 
 > For contributing to Oscarine-API, please fork the project first and then clone your fork.
