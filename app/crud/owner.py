@@ -36,7 +36,8 @@ def get_by_id(db_session: Session, *, owner_id: int) -> Optional[Owner]:
     return None
 
 
-def authenticate(db_session: Session, *, email: EmailStr, password: str) -> Optional[Owner]:
+def authenticate(db_session: Session, *, email: EmailStr,
+                 password: str) -> Optional[Owner]:
     owner = get_by_email(db_session, email=email)
     if not owner:
         return None
@@ -45,7 +46,8 @@ def authenticate(db_session: Session, *, email: EmailStr, password: str) -> Opti
     return owner
 
 
-def update_owner_info(db_session: Session, *, owner: Owner, data: OwnerUpdate) -> Owner:
+def update_owner_info(db_session: Session, *, owner: Owner,
+                      data: OwnerUpdate) -> Owner:
     owner_data = jsonable_encoder(data)
     data = remove_none_from_dict(owner_data)
     if "email" in data:
