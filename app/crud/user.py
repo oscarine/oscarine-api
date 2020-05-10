@@ -52,6 +52,13 @@ def update_user_info(db_session: Session, *, user: User,
                      data: UserUpdate) -> User:
     user_data = jsonable_encoder(data)
     data = remove_none_from_dict(user_data)
+    if "email" in data:
+        user_by_email = get_by_email(db_session, email=data["email"])
+        if user_by_email:
+            raise HTTPException(
+                status_code=422,
+                detail="The user with this email already exists."
+            )
     for field in data:
         setattr(user, field, data[field])
     db_session.add(user)
