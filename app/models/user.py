@@ -1,5 +1,4 @@
-from pydantic import BaseModel
-from pydantic.types import EmailStr
+from pydantic import BaseModel, EmailStr
 
 
 # Properties to be received during registration
