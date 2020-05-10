@@ -23,7 +23,7 @@ def login_access_token(
     OAuth2 compatible token login, get an access token for future requests
     """
     user = authenticate(
-        db, username=data.username, password=data.password
+        db, email=data.email, password=data.password
     )
     if not user:
         raise HTTPException(
