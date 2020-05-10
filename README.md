@@ -39,9 +39,13 @@ alembic upgrade head
 * If you have not followed the above commands exactly please edit the `.env` file accordingly. 
 
 ## During Development
-* We can create a revision file whenever we change the database schema
+* We can autogenerate revision file whenever we change the database schema
 ```text
-alembic revision -m "Your revision message"
+alembic revision --autogenerate -m "Your revision message"
+```
+* Then we can apply those changes to the database
+```text
+alembic upgrade head
 ```
 
 
