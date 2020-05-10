@@ -1,4 +1,5 @@
 from typing import Optional
+from pydantic import EmailStr
 
 from sqlalchemy.orm import Session
 
@@ -21,7 +22,6 @@ def get_by_email(db_session: Session, *, email: str) -> Optional[User]:
 
 def create_user(db_session: Session, *, user_in: UserCreate) -> User:
     user = User(
-        username=user_in.username,
         email=user_in.email,
         password_hash=get_password_hash(user_in.password)
     )
@@ -38,8 +38,8 @@ def get_by_id(db_session: Session, *, user_id: int) -> Optional[User]:
     return None
 
 
-def authenticate(db_session: Session, *, username: str, password: str) -> Optional[User]:
-        user = get_by_username(db_session, username=username)
+def authenticate(db_session: Session, *, email: EmailStr, password: str) -> Optional[User]:
+        user = get_by_email(db_session, email=email)
         if not user:
             return None
         if not verify_password(password, user.password_hash):
@@ -50,13 +50,6 @@ def authenticate(db_session: Session, *, username: str, password: str) -> Option
 def update_user_info(db_session: Session, *, user: User, data: UserUpdate) -> User:
     user_data = jsonable_encoder(data)
     data = remove_none_from_dict(user_data)
-    if "username" in data:
-        user_by_username = get_by_username(db_session, username=data["username"])
-        if user_by_username:
-            raise HTTPException(
-                status_code=422,
-                detail="This username already exists. Please use a different username"
-            )
     for field in data:
         setattr(user, field, data[field])
     db_session.add(user)

@@ -20,17 +20,11 @@ async def register_user(
     data: UserCreate
 ):
     """registering new users."""
-    user = get_by_username(db, username=data.username)
-    if user:
-        raise HTTPException(
-            status_code=400,
-            detail="The user with this username already exists.",
-        )
     user = get_by_email(db, email=data.email)
     if user:
         raise HTTPException(
             status_code=400,
-            detail="The user with this email already exists."
+            detail="The user with this email already exists.",
         )
     user = create_user(db, user_in=data)
     return user
