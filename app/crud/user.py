@@ -38,16 +38,18 @@ def get_by_id(db_session: Session, *, user_id: int) -> Optional[User]:
     return None
 
 
-def authenticate(db_session: Session, *, email: EmailStr, password: str) -> Optional[User]:
-        user = get_by_email(db_session, email=email)
-        if not user:
-            return None
-        if not verify_password(password, user.password_hash):
-            return None
-        return user
+def authenticate(db_session: Session, *, email: EmailStr,
+                 password: str) -> Optional[User]:
+    user = get_by_email(db_session, email=email)
+    if not user:
+        return None
+    if not verify_password(password, user.password_hash):
+        return None
+    return user
 
 
-def update_user_info(db_session: Session, *, user: User, data: UserUpdate) -> User:
+def update_user_info(db_session: Session, *, user: User,
+                     data: UserUpdate) -> User:
     user_data = jsonable_encoder(data)
     data = remove_none_from_dict(user_data)
     for field in data:
