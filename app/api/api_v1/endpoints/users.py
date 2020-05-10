@@ -13,7 +13,7 @@ from app.db_models.user import User as DBUser
 router = APIRouter()
 
 
-@router.post("/users")
+@router.post("/users", response_model=UserResponse)
 async def register_user(
     *,
     db: Session = Depends(get_db),
@@ -27,6 +27,7 @@ async def register_user(
             detail="The user with this email already exists.",
         )
     user = create_user(db, user_in=data)
+    return UserResponse(**jsonable_encoder(user))
     return user
 
 
