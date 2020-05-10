@@ -56,7 +56,7 @@ def owner_login_access_token(
     OAuth2 compatible token login for owners, get an access token for future requests
     """
     owner = authenticate(
-        db, username=data.username, password=data.password
+        db, email=data.email, password=data.password
     )
     if not owner:
         raise HTTPException(

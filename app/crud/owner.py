@@ -1,5 +1,7 @@
 from typing import Optional
 from fastapi.encoders import jsonable_encoder
+from pydantic import EmailStr
+from fastapi import HTTPException
 
 from sqlalchemy.orm import Session
 from app.db_models.owner import Owner
@@ -18,7 +20,6 @@ def get_by_email(db_session: Session, *, email: str) -> Optional[Owner]:
 
 def create_owner(db_session: Session, *, user_in: OwnerCreate) -> Owner:
     owner = Owner(
-        username=user_in.username,
         email=user_in.email,
         password_hash=get_password_hash(user_in.password)
     )
@@ -35,8 +36,9 @@ def get_by_id(db_session: Session, *, owner_id: int) -> Optional[Owner]:
     return None
 
 
-def authenticate(db_session: Session, *, username: str, password: str) -> Optional[Owner]:
-    owner = get_by_username(db_session, username=username)
+def authenticate(db_session: Session, *, email: EmailStr,
+                 password: str) -> Optional[Owner]:
+    owner = get_by_email(db_session, email=email)
     if not owner:
         return None
     if not verify_password(password, owner.password_hash):
@@ -44,9 +46,17 @@ def authenticate(db_session: Session, *, username: str, password: str) -> Option
     return owner
 
 
-def update_owner_info(db_session: Session, *, owner: Owner, data: OwnerUpdate) -> Owner:
+def update_owner_info(db_session: Session, *, owner: Owner,
+                      data: OwnerUpdate) -> Owner:
     owner_data = jsonable_encoder(data)
     data = remove_none_from_dict(owner_data)
+    if "email" in data:
+        owner_by_email = get_by_email(db_session, email=data["email"])
+        if owner_by_email:
+            raise HTTPException(
+                status_code=422,
+                detail="The owner with this email already exists."
+            )
     for field in data:
         setattr(owner, field, data[field])
     db_session.add(owner)
