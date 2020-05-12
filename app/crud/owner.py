@@ -65,3 +65,9 @@ def update_owner_info(db_session: Session, *, owner: Owner,
     db_session.commit()
     db_session.refresh(owner)
     return owner
+
+
+def owner_email_verified(db_session: Session, *, owner: Owner) -> Owner:
+    owner.email_verified = True
+    db_session.commit()
+    return owner

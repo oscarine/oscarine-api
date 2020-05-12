@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, AnyUrl
+from pydantic import BaseModel, EmailStr, AnyUrl, StrictBool
 from datetime import datetime
 
 
@@ -28,3 +28,13 @@ class UserResponse(BaseModel):
     last_seen: datetime = None
     id: int
     email_verified: bool
+
+
+class VerifyUserEmail(BaseModel):
+    email: EmailStr
+    otp: int
+
+
+class EmailVerifyResponse(BaseModel):
+    verified: StrictBool
+    message: str

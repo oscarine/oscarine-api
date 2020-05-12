@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from fastapi.encoders import jsonable_encoder
 from secrets import SystemRandom
-from app.models.user import UserCreate, UserUpdate, UserResponse
+from app.models.user import UserCreate, UserUpdate, UserResponse, \
+    EmailVerifyResponse, VerifyUserEmail
 from app.crud.user import get_by_username, get_by_email, create_user, \
-    get_by_id, update_user_info
+    get_by_id, update_user_info, user_email_verified
 
 from sqlalchemy.orm import Session
 from app.api.utils.db import get_db
@@ -33,6 +34,26 @@ async def register_user(
     user = create_user(db, user_in=data, otp=otp)
     background_tasks.add_task(send_email_verify_otp, data.email, otp)
     return UserResponse(**jsonable_encoder(user))
+
+
+@router.post("/users/verify_email", response_model=EmailVerifyResponse)
+async def verify_user_email_otp(
+    *,
+    data: VerifyUserEmail,
+    db: Session = Depends(get_db)
+):
+    user = get_by_email(db, email=data.email)
+    if user and (user.otp == data.otp):
+        user = user_email_verified(db, user=user)
+        if user.email_verified:
+            return EmailVerifyResponse(
+                verified=True,
+                message="Your email has been verified."
+            )
+    raise HTTPException(
+        status_code=401,
+        detail="Cannot verify your otp."
+    )
 
 
 @router.get("/users/{user_id}", response_model=UserResponse)

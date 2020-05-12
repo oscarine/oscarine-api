@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.core.security import get_password_hash, verify_password
 from app.db_models.user import User
-from app.models.user import UserCreate, UserUpdate
+from app.models.user import UserCreate, UserUpdate, VerifyUserEmail
 from app.api.utils.parsing import remove_none_from_dict
 
 from fastapi.encoders import jsonable_encoder
@@ -65,4 +65,10 @@ def update_user_info(db_session: Session, *, user: User,
     db_session.add(user)
     db_session.commit()
     db_session.refresh(user)
+    return user
+
+
+def user_email_verified(db_session: Session, *, user: User) -> User:
+    user.email_verified = True
+    db_session.commit()
     return user

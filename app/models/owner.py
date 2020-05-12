@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, AnyUrl
+from pydantic import BaseModel, EmailStr, AnyUrl, StrictBool
 from datetime import datetime
 
 from typing import Optional
@@ -36,3 +36,13 @@ class OwnerUpdate(BaseModel):
 class OwnerLogin(BaseModel):
     email: EmailStr
     password: str
+
+
+class VerifyOwnerEmail(BaseModel):
+    email: EmailStr
+    otp: int
+
+
+class OwnerEmailVerifyResponse(BaseModel):
+    verified: StrictBool
+    message: str
