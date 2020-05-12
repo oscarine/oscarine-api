@@ -18,7 +18,8 @@ PROJECT_NAME = os.getenv("PROJECT_NAME")
 DATABASE_URL = os.getenv("DATABASE_URL")
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 8  # 60 minutes * 24 hours * 8 days = 8 days
+# 60 minutes * 24 hours * 8 days = 8 days
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 8
 
 # Configs for sending emails
 MAIL_SERVER = os.getenv("MAIL_SERVER")
