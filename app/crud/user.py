@@ -66,3 +66,9 @@ def update_user_info(db_session: Session, *, user: User,
     db_session.commit()
     db_session.refresh(user)
     return user
+
+
+def user_email_verified(db_session: Session, *, user: User) -> User:
+    user.email_verified = True
+    db_session.commit()
+    return user

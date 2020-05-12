@@ -10,11 +10,13 @@ from app.crud.owner import create_owner, get_by_id
 from app.api.utils.error import expected_integrity_error
 from app.models.token import Token
 from app.models.owner import OwnerLogin
-from app.crud.owner import authenticate, update_owner_info
+from app.crud.owner import authenticate, update_owner_info, get_by_email, \
+    owner_email_verified
 from app.core import config
 from app.core.email import send_email_verify_otp
 from app.core.jwt import create_access_token
-from app.models.owner import OwnerUpdate
+from app.models.owner import OwnerUpdate, OwnerEmailVerifyResponse, \
+    VerifyOwnerEmail
 from app.db_models.owner import Owner as DBOwnerModel
 from app.api.utils.owner_security import get_current_owner
 
@@ -36,6 +38,26 @@ async def register_owner(
     if owner is not None:
         background_tasks.add_task(send_email_verify_otp, data.email, otp)
     return owner
+
+
+@router.post("/owners/verify_email", response_model=OwnerEmailVerifyResponse)
+async def verify_owner_email_otp(
+    *,
+    data: VerifyOwnerEmail,
+    db: Session = Depends(get_db)
+):
+    owner = get_by_email(db, email=data.email)
+    if owner and (owner.otp == data.otp):
+        owner = owner_email_verified(db, owner=owner)
+        if owner.email_verified:
+            return OwnerEmailVerifyResponse(
+                verified=True,
+                message="Your email has been verified."
+            )
+    raise HTTPException(
+        status_code=401,
+        detail="Cannot verify your otp."
+    )
 
 
 @router.get("/owners/{owner_id}", response_model=OwnerDetails)
