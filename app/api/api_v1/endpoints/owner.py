@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from fastapi.encoders import jsonable_encoder
 from datetime import timedelta
+from secrets import SystemRandom
 
 from sqlalchemy.orm import Session
 from app.api.utils.db import get_db
@@ -11,6 +12,7 @@ from app.models.token import Token
 from app.models.owner import OwnerLogin
 from app.crud.owner import authenticate, update_owner_info
 from app.core import config
+from app.core.email import send_email_verify_otp
 from app.core.jwt import create_access_token
 from app.models.owner import OwnerUpdate
 from app.db_models.owner import Owner as DBOwnerModel
@@ -24,11 +26,15 @@ router = APIRouter()
 async def register_owner(
         *,
         db: Session = Depends(get_db),
-        data: OwnerCreate
+        data: OwnerCreate,
+        background_tasks: BackgroundTasks
 ):
     """registering new owners."""
+    otp = SystemRandom().randint(10000, 99999)
     with expected_integrity_error(db, detail="There was a conflict with an existing user", debug=False):
-        owner = create_owner(db, user_in=data)
+        owner = create_owner(db, user_in=data, otp=otp)
+    if owner is not None:
+        background_tasks.add_task(send_email_verify_otp, data.email, otp)
     return owner
 
 

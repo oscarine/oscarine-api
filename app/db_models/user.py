@@ -13,3 +13,4 @@ class User(Base):
     phone_number = Column(String(15))
     avatar_image = Column(String(120))
     email_verified = Column(Boolean, default=False)
+    otp = Column(Integer, nullable=False)

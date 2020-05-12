@@ -20,10 +20,11 @@ def get_by_email(db_session: Session, *, email: str) -> Optional[User]:
     return db_session.query(User).filter(User.email == email).first()
 
 
-def create_user(db_session: Session, *, user_in: UserCreate) -> User:
+def create_user(db_session: Session, *, user_in: UserCreate, otp: int) -> User:
     user = User(
         email=user_in.email,
-        password_hash=get_password_hash(user_in.password)
+        password_hash=get_password_hash(user_in.password),
+        otp=otp
     )
     db_session.add(user)
     db_session.commit()
