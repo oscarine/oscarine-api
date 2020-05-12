@@ -15,3 +15,4 @@ class Owner(Base):
     city = Column(String(30))
     state = Column(String(30))
     email_verified = Column(Boolean, default=False)
+    otp = Column(Integer, nullable=False)

@@ -18,10 +18,12 @@ def get_by_email(db_session: Session, *, email: str) -> Optional[Owner]:
     return db_session.query(Owner).filter(Owner.email == email).first()
 
 
-def create_owner(db_session: Session, *, user_in: OwnerCreate) -> Owner:
+def create_owner(db_session: Session, *, user_in: OwnerCreate,
+                 otp: int) -> Owner:
     owner = Owner(
         email=user_in.email,
-        password_hash=get_password_hash(user_in.password)
+        password_hash=get_password_hash(user_in.password),
+        otp=otp
     )
     db_session.add(owner)
     db_session.commit()
