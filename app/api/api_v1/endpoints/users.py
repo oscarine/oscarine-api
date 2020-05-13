@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from fastapi.encoders import jsonable_encoder
 from secrets import SystemRandom
+from datetime import datetime, timedelta
 from app.models.user import UserCreate, UserUpdate, UserResponse, \
     EmailVerifyResponse, VerifyUserEmail
 from app.crud.user import get_by_username, get_by_email, create_user, \
@@ -9,6 +10,7 @@ from app.crud.user import get_by_username, get_by_email, create_user, \
 from sqlalchemy.orm import Session
 from app.api.utils.db import get_db
 from app.core.email import send_email_verify_otp
+from app.core import config
 from app.api.utils.security import get_current_user
 from app.db_models.user import User as DBUser
 
@@ -44,15 +46,18 @@ async def verify_user_email_otp(
 ):
     user = get_by_email(db, email=data.email)
     if user and (user.otp == data.otp):
-        user = user_email_verified(db, user=user)
-        if user.email_verified:
-            return EmailVerifyResponse(
-                verified=True,
-                message="Your email has been verified."
-            )
+        expiry_time = user.otp_created_at + \
+            timedelta(minutes=config.OTP_EXPIRY_MINUTES)
+        if expiry_time >= datetime.utcnow():
+            user = user_email_verified(db, user=user)
+            if user.email_verified:
+                return EmailVerifyResponse(
+                    verified=True,
+                    message="Your email has been verified."
+                )
     raise HTTPException(
         status_code=401,
-        detail="Cannot verify your otp."
+        detail="Cannot verify your otp or it may have been expired."
     )
 
 

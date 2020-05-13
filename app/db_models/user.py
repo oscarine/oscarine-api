@@ -14,3 +14,4 @@ class User(Base):
     avatar_image = Column(String(120))
     email_verified = Column(Boolean, default=False)
     otp = Column(Integer, nullable=False)
+    otp_created_at = Column(DateTime, default=datetime.utcnow)
