@@ -21,6 +21,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # 60 minutes * 24 hours * 8 days = 8 days
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 8
 
+OTP_EXPIRY_MINUTES = 5
+
 # Configs for sending emails
 MAIL_SERVER = os.getenv("MAIL_SERVER")
 MAIL_PORT = int(os.getenv("MAIL_PORT")) or 465

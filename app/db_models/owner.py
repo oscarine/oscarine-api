@@ -16,3 +16,4 @@ class Owner(Base):
     state = Column(String(30))
     email_verified = Column(Boolean, default=False)
     otp = Column(Integer, nullable=False)
+    otp_created_at = Column(DateTime, default=datetime.utcnow)

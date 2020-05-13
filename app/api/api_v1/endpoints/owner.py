@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from fastapi.encoders import jsonable_encoder
-from datetime import timedelta
+from datetime import datetime, timedelta
 from secrets import SystemRandom
 
 from sqlalchemy.orm import Session
@@ -48,15 +48,18 @@ async def verify_owner_email_otp(
 ):
     owner = get_by_email(db, email=data.email)
     if owner and (owner.otp == data.otp):
-        owner = owner_email_verified(db, owner=owner)
-        if owner.email_verified:
-            return OwnerEmailVerifyResponse(
-                verified=True,
-                message="Your email has been verified."
-            )
+        expiry_time = owner.otp_created_at + \
+            timedelta(minutes=config.OTP_EXPIRY_MINUTES)
+        if expiry_time >= datetime.utcnow():
+            owner = owner_email_verified(db, owner=owner)
+            if owner.email_verified:
+                return OwnerEmailVerifyResponse(
+                    verified=True,
+                    message="Your email has been verified."
+                )
     raise HTTPException(
         status_code=401,
-        detail="Cannot verify your otp."
+        detail="Cannot verify your otp or it may have been expired."
     )
 
 
@@ -91,7 +94,8 @@ def owner_login_access_token(
             status_code=400,
             detail="Incorrect email or password"
         )
-    access_token_expires = timedelta(minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(
+        minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
     return {
         "access_token": create_access_token(
             data={"owner_id": owner.id}, expires_delta=access_token_expires
