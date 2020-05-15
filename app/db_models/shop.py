@@ -15,4 +15,3 @@ class Shop(Base):
     owner_id = Column(Integer, ForeignKey('owner.id'), nullable=False)
     owner = relation("Owner", backref='shops')
     location = Column(Geography(geometry_type='POINT', srid=4326))
-    
