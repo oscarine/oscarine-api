@@ -13,13 +13,8 @@ def register_new_shop(db_session: Session, *, owner_id: int,
     for field in data:
         if field != 'location':
             setattr(shop, field, data[field])
-    setattr(shop, 'owner_id', owner_id)
-    setattr(
-        shop,
-        'location',
-        'POINT({} {})'.format(
-            data['longitude'],
-            data['latitude']))
+    shop.owner_id = owner_id
+    shop.location = 'POINT({} {})'.format(data['longitude'], data['latitude'])
     db_session.add(shop)
     db_session.commit()
     db_session.refresh(shop)
