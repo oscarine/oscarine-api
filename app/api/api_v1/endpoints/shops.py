@@ -30,7 +30,7 @@ async def list_of_shops(
     db: Session = Depends(get_db),
     current_owner: DBOwnerModel = Depends(get_current_owner)
 ):
-    if (shops: = current_owner.shops):
+    if (shops := current_owner.shops):
         return shops
     raise HTTPException(
         status_code=404,
