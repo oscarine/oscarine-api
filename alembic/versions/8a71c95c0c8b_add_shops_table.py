@@ -1,8 +1,8 @@
 """add shops table
 
-Revision ID: 46e06e80c43a
+Revision ID: 8a71c95c0c8b
 Revises: 0f7e921cbc13
-Create Date: 2020-05-15 13:15:59.526824
+Create Date: 2020-05-15 17:13:45.111618
 
 """
 from alembic import op
@@ -12,7 +12,7 @@ import geoalchemy2
 
 
 # revision identifiers, used by Alembic.
-revision = '46e06e80c43a'
+revision = '8a71c95c0c8b'
 down_revision = '0f7e921cbc13'
 branch_labels = None
 depends_on = None
@@ -24,9 +24,9 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=50), nullable=False),
     sa.Column('phone_number', sa.String(length=15), nullable=True),
-    sa.Column('address', sa.String(length=50), nullable=True),
+    sa.Column('address', sa.String(length=50), nullable=False),
     sa.Column('owner_id', sa.Integer(), nullable=False),
-    sa.Column('location', geoalchemy2.types.Geography(geometry_type='POINT', srid=4326), nullable=True),
+    sa.Column('location', geoalchemy2.types.Geography(geometry_type='POINT', srid=4326), nullable=False),
     sa.ForeignKeyConstraint(['owner_id'], ['owner.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
