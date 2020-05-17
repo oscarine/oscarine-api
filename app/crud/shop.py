@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 
 from app.models.shop import ShopRegister
 from app.db_models.shop import Shop
@@ -28,3 +29,14 @@ def get_shop_by_id(db_session: Session, *, shop_id: int,
     if shop:
         return shop
     return None
+
+
+def shops_for_users(db_session: Session, *, longitude: float,
+                    latitude: float) -> Shop:
+    point_ewkt = 'SRID=4326;POINT({} {})'.format(longitude, latitude)
+    shops = db_session.query(Shop).filter(
+        Shop.location.ST_DWithin(
+            func.ST_GeogFromText(point_ewkt),
+            Shop.radius_metres)
+    ).all()
+    return shops
