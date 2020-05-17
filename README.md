@@ -32,6 +32,17 @@ psql -d postgres
 CREATE USER oscarine WITH PASSWORD 'password';
 CREATE DATABASE oscarine_db WITH OWNER oscarine;
 ```
+* Now make user `oscarine` SUPERUSER
+```text
+ALTER USER oscarine WITH SUPERUSER;
+```
+* Now we need extension called `postgis` (install it from [here](https://postgis.net/install/))
+* We can now create this extension for our database `oscarine_db`
+```text
+sudo -u postgres psql -d oscarine_db;  # Get inside `oscarine_db` shell
+CREATE EXTENSION postgis;
+SELECT postgis_full_version();  # To verify postgis extension
+```
 * After that we can run migrations using alembic
 ```text
 alembic upgrade head
