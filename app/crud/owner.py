@@ -45,6 +45,11 @@ def authenticate(db_session: Session, *, email: EmailStr,
         return None
     if not verify_password(password, owner.password_hash):
         return None
+    if not owner.email_verified:
+        raise HTTPException(
+            status_code=401,
+            detail="Email not verified."
+        )
     return owner
 
 
