@@ -12,8 +12,7 @@ def register_new_shop(db_session: Session, *, owner_id: int,
     shop = Shop()
     data = jsonable_encoder(data, exclude_none=True)
     for field in data:
-        if field != 'location':
-            setattr(shop, field, data[field])
+        setattr(shop, field, data[field])
     shop.owner_id = owner_id
     shop.location = 'POINT({} {})'.format(data['longitude'], data['latitude'])
     db_session.add(shop)
@@ -38,5 +37,5 @@ def shops_for_users(db_session: Session, *, longitude: float,
         Shop.location.ST_DWithin(
             func.ST_GeogFromText(point_ewkt),
             Shop.radius_metres)
-    ).all()
+    )
     return shops
