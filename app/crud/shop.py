@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 
 from app.models.shop import ShopRegister
 from app.db_models.shop import Shop
@@ -11,8 +12,7 @@ def register_new_shop(db_session: Session, *, owner_id: int,
     shop = Shop()
     data = jsonable_encoder(data, exclude_none=True)
     for field in data:
-        if field != 'location':
-            setattr(shop, field, data[field])
+        setattr(shop, field, data[field])
     shop.owner_id = owner_id
     shop.location = 'POINT({} {})'.format(data['longitude'], data['latitude'])
     db_session.add(shop)
@@ -28,3 +28,14 @@ def get_shop_by_id(db_session: Session, *, shop_id: int,
     if shop:
         return shop
     return None
+
+
+def shops_for_users(db_session: Session, *, longitude: float,
+                    latitude: float) -> Shop:
+    point_ewkt = 'SRID=4326;POINT({} {})'.format(longitude, latitude)
+    shops = db_session.query(Shop).filter(
+        Shop.location.ST_DWithin(
+            func.ST_GeogFromText(point_ewkt),
+            Shop.radius_metres)
+    )
+    return shops

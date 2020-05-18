@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Numeric
 from sqlalchemy.orm import relation
 from geoalchemy2.types import Geography
 
@@ -15,3 +15,4 @@ class Shop(Base):
     owner_id = Column(Integer, ForeignKey('owner.id'), nullable=False)
     owner = relation("Owner", backref='shops')
     location = Column(Geography(geometry_type='POINT', srid=4326), nullable=False)
+    radius_metres = Column(Numeric(asdecimal=True, scale=3), nullable=False)
