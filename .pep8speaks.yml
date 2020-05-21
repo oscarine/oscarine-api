@@ -12,6 +12,8 @@ flake8:  # Same as scanner.linter value. Other option is pycodestyle
         - E731  # do not assign a lambda expression, use a def
         - C406  # Unnecessary list literal - rewrite as a dict literal.
         - E741  # ambiguous variable name
+        - E203  # https://github.com/psf/black/blob/master/docs/compatible_configs.md#flake8
+        - W503
     exclude: ["*alembic*"]
 
 no_blank_comment: False  # If True, no comment is made on PR without any errors.

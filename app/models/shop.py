@@ -1,5 +1,6 @@
-from pydantic import BaseModel, constr, confloat, PositiveFloat
 from typing import Optional
+
+from pydantic import BaseModel, PositiveFloat, confloat, constr
 
 
 class ShopDetails(BaseModel):
