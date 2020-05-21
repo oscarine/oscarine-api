@@ -2,7 +2,6 @@
 """Factories to help in tests."""
 from factory import PostGenerationMethodCall, Sequence
 from factory.alchemy import SQLAlchemyModelFactory
-
 from oscarine_api.database import db
 from oscarine_api.user.models import User
 

@@ -5,5 +5,5 @@ COST_UNIT_TYPES = [
     ('per-pack', 'Per Pack'),
     ('per-crate', 'Per Crate'),
     ('per-kg', 'Per Kg'),
-    ('per-litre', 'Per Litre')
+    ('per-litre', 'Per Litre'),
 ]

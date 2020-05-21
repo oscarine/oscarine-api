@@ -1,7 +1,9 @@
 from email.message import EmailMessage
-from app.core import config
+
 from pydantic import EmailStr
+
 import aiosmtplib
+from app.core import config
 
 
 async def send_email_verify_otp(email: EmailStr, otp: int):
@@ -19,5 +21,5 @@ async def send_email_verify_otp(email: EmailStr, otp: int):
         port=config.MAIL_PORT,
         username=config.MAIL_USERNAME,
         password=config.MAIL_PASSWORD,
-        use_tls=config.MAIL_USE_TLS
+        use_tls=config.MAIL_USE_TLS,
     )
