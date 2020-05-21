@@ -1,22 +1,17 @@
 from contextlib import contextmanager
-from typing import Dict, Generator, NoReturn, Optional
-
+from typing import Optional, Generator, NoReturn, Dict
+from starlette.status import HTTP_409_CONFLICT
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from starlette.status import HTTP_409_CONFLICT
 
 DEFAULT_ERROR_MESSAGE = "An error occurred"
 
 
 @contextmanager
 def expected_integrity_error(
-    session: Session,
-    *,
-    detail: Optional[str] = None,
-    status_code: int = HTTP_409_CONFLICT,
-    debug: bool,
+    session: Session, *, detail: Optional[str] = None, status_code: int = HTTP_409_CONFLICT, debug: bool
 ) -> Generator[None, None, None]:
     try:
         yield
@@ -26,11 +21,8 @@ def expected_integrity_error(
 
 
 def _raise_api_response_error(
-    detail: Optional[str],
-    status_code: int,
-    headers: Optional[Dict[str, str]] = None,
-    exc: Optional[Exception] = None,
-    debug: bool = False,
+    detail: Optional[str], status_code: int, headers: Optional[Dict[str, str]] = None, exc: Optional[Exception] = None,
+    debug: bool = False
 ) -> NoReturn:
     if debug and exc is not None:
         detail = str(exc)

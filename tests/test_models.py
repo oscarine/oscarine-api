@@ -3,6 +3,7 @@
 import datetime as dt
 
 import pytest
+
 from oscarine_api.user.models import Role, User
 
 from .factories import UserFactory
