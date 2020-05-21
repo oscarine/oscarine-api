@@ -11,10 +11,6 @@ from app.db_models.user import User
 from app.models.user import UserCreate, UserUpdate
 
 
-def get_by_username(db_session: Session, *, username: str) -> Optional[User]:
-    return db_session.query(User).filter(User.username == username).first()
-
-
 def get_by_email(db_session: Session, *, email: str) -> Optional[User]:
     return db_session.query(User).filter(User.email == email).first()
 

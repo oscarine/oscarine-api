@@ -13,7 +13,6 @@ from app.crud.user import (
     create_user,
     get_by_email,
     get_by_id,
-    get_by_username,
     update_user_info,
     user_email_verified,
 )
