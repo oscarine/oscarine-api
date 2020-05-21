@@ -1,5 +1,6 @@
 from sqlalchemy import Column, String, Integer, Boolean, DateTime
 from datetime import datetime
+from sqlalchemy.orm import relation
 
 from app.db.base_class import Base
 
@@ -17,3 +18,4 @@ class Owner(Base):
     email_verified = Column(Boolean, default=False)
     otp = Column(Integer, nullable=False)
     otp_created_at = Column(DateTime, default=datetime.utcnow)
+    items = relation("Item", back_populates="owner")
