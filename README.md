@@ -50,10 +50,6 @@ alembic upgrade head
 * If you have not followed the above commands exactly please edit the `.env` file accordingly. 
 
 ## During Development
-* Install pre-commit at `.git/hooks/pre-commit`
-```text
-pre-commit install
-```
 * We can autogenerate revision file whenever we change the database schema
 ```text
 alembic revision --autogenerate -m "Your revision message"

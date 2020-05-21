@@ -1,8 +1,8 @@
-from sqlalchemy import Column, ForeignKey, Integer, Numeric, String
+from sqlalchemy import Column, Integer, String, ForeignKey, Numeric
 from sqlalchemy.orm import relation
+from geoalchemy2.types import Geography
 
 from app.db.base_class import Base
-from geoalchemy2.types import Geography
 
 
 class Shop(Base):

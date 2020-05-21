@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Optional
 
-from pydantic import BaseModel, PositiveFloat, StrictBool, constr
+from pydantic import BaseModel, constr, PositiveFloat, StrictBool
 
 
 class CostUnitEnum(str, Enum):

@@ -4,9 +4,10 @@
 import logging
 
 import pytest
+from webtest import TestApp
+
 from oscarine_api.app import create_app
 from oscarine_api.database import db as _db
-from webtest import TestApp
 
 from .factories import UserFactory
 
