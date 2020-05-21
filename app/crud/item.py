@@ -1,11 +1,9 @@
 from typing import List
-from sqlalchemy import update
 from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder
 
 from app.models.item import Item as PydanticItem, UpdateItem
 from app.db_models.item import Item
-from app.db_models.shop import Shop
 
 
 def item_by_name_and_shop(db_session: Session, *, shop_id: int,
@@ -17,7 +15,7 @@ def item_by_name_and_shop(db_session: Session, *, shop_id: int,
 
 
 def add_item(db_session: Session, *, shop_id: int,
-              owner_id: int, data: PydanticItem) -> Item:
+            owner_id: int, data: PydanticItem) -> Item:
     item = Item()
     data = jsonable_encoder(data, exclude_none=True)
     for field in data:
