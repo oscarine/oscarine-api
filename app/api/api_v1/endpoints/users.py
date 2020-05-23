@@ -60,14 +60,13 @@ async def verify_user_email_otp(*, data: VerifyUserEmail, db: Session = Depends(
     )
 
 
-@router.get("/users/{user_id}", response_model=UserResponse)
-async def user_by_id(*, user_id: int, db: Session = Depends(get_db)):
-    user = get_by_id(db, user_id=user_id)
-    if user:
-        # user found with the given user ID
+@router.get("/users", response_model=UserResponse)
+async def get_user_details(
+    *, db: Session = Depends(get_db), current_user: DBUser = Depends(get_current_user),
+):
+    if user := get_by_id(db, user_id=current_user.id):
         return UserResponse(**jsonable_encoder(user))
-    # show exception otherwise
-    raise HTTPException(status_code=404, detail="Can't find user with that user id")
+    raise HTTPException(status_code=404, detail="Can't find details of this user.")
 
 
 @router.put("/users")
