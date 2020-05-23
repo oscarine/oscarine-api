@@ -61,7 +61,7 @@ async def verify_user_email_otp(*, data: VerifyUserEmail, db: Session = Depends(
 
 
 @router.get("/users", response_model=UserResponse)
-async def user_by_id(
+async def get_user_details(
     *, db: Session = Depends(get_db), current_user: DBUser = Depends(get_current_user),
 ):
     if user := get_by_id(db, user_id=current_user.id):
