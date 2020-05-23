@@ -66,12 +66,15 @@ async def verify_owner_email_otp(
     )
 
 
-@router.get("/owners/{owner_id}", response_model=OwnerDetails)
-async def owner_by_id(*, owner_id: int, db: Session = Depends(get_db)):
-    owner = get_by_id(db, owner_id=owner_id)
-    if owner:
+@router.get("/owners", response_model=OwnerDetails)
+async def get_owner_details(
+    *,
+    db: Session = Depends(get_db),
+    current_owner: DBOwnerModel = Depends(get_current_owner),
+):
+    if owner := get_by_id(db, owner_id=current_owner.id):
         return OwnerDetails(**jsonable_encoder(owner))
-    raise HTTPException(status_code=404, detail="Can't find owner with that owner id")
+    raise HTTPException(status_code=404, detail="Can't find details of this owner.")
 
 
 @router.post("/owner_login", response_model=Token, tags=["owner", "login"])
