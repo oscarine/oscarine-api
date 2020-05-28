@@ -12,9 +12,11 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relation
 
+from app.choices.order_status import ORDER_STATUS_TYPES
 from app.db.base_class import Base
 from app.db_models.ordered_item import OrderedItem
 from sqlalchemy_utils import aggregated
+from sqlalchemy_utils.types.choice import ChoiceType
 
 
 class Order(Base):
@@ -28,13 +30,12 @@ class Order(Base):
     shop_id = Column(Integer, ForeignKey('shops.id'), nullable=False)
     shop = relation("Shop", back_populates="orders")
     user_instructions = Column(String(length=150))
+    status = Column(
+        ChoiceType(ORDER_STATUS_TYPES, impl=String(length=20)),
+        default="not-accepted",
+        nullable=False,
+    )
 
     @aggregated('ordered_items', Column(Numeric(asdecimal=True, scale=2)))
     def total_cost(self):
         return func.sum((OrderedItem.cost) * (OrderedItem.quantity))
-
-    # Order status
-    accepted = Column(Boolean, default=False)  # For shops
-    declined = Column(Boolean, default=False)  # For shops, can't decline once accepted
-    canceled = Column(Boolean, default=False)  # For users
-    delivered = Column(Boolean, default=False)

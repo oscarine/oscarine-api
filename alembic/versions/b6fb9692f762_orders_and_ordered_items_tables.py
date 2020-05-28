@@ -1,16 +1,18 @@
 """orders and ordered_items tables
 
-Revision ID: 3a0ebcec740d
+Revision ID: b6fb9692f762
 Revises: d54778171038
-Create Date: 2020-05-28 19:00:28.851255
+Create Date: 2020-05-28 21:42:59.062942
 
 """
 import sqlalchemy as sa
 
+import sqlalchemy_utils
 from alembic import op
+from app.choices.order_status import ORDER_STATUS_TYPES
 
 # revision identifiers, used by Alembic.
-revision = '3a0ebcec740d'
+revision = 'b6fb9692f762'
 down_revision = 'd54778171038'
 branch_labels = None
 depends_on = None
@@ -25,11 +27,14 @@ def upgrade():
         sa.Column('user_id', sa.Integer(), nullable=False),
         sa.Column('shop_id', sa.Integer(), nullable=False),
         sa.Column('user_instructions', sa.String(length=150), nullable=True),
+        sa.Column(
+            'status',
+            sqlalchemy_utils.types.choice.ChoiceType(
+                ORDER_STATUS_TYPES, impl=sa.String(length=20)
+            ),
+            nullable=False,
+        ),
         sa.Column('total_cost', sa.Numeric(scale=2), nullable=True),
-        sa.Column('accepted', sa.Boolean(), nullable=True),
-        sa.Column('declined', sa.Boolean(), nullable=True),
-        sa.Column('canceled', sa.Boolean(), nullable=True),
-        sa.Column('delivered', sa.Boolean(), nullable=True),
         sa.ForeignKeyConstraint(['shop_id'], ['shops.id'],),
         sa.ForeignKeyConstraint(['user_id'], ['user.id'],),
         sa.PrimaryKeyConstraint('id'),
