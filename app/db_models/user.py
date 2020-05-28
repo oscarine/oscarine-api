@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy.orm import relation
 
 from app.db.base_class import Base
 
@@ -16,3 +17,4 @@ class User(Base):
     email_verified = Column(Boolean, default=False)
     otp = Column(Integer, nullable=False)
     otp_created_at = Column(DateTime, default=datetime.utcnow)
+    orders = relation("Order", back_populates="user")

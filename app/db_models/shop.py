@@ -17,3 +17,4 @@ class Shop(Base):
     location = Column(Geography(geometry_type='POINT', srid=4326), nullable=False)
     radius_metres = Column(Numeric(asdecimal=True, scale=3), nullable=False)
     items = relation("Item", back_populates="shop")
+    orders = relation("Order", back_populates="shop")
