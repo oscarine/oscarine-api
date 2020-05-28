@@ -31,7 +31,7 @@ class Order(Base):
 
     @aggregated('ordered_items', Column(Numeric(asdecimal=True, scale=2)))
     def total_cost(self):
-        return func.sum(OrderedItem.cost)
+        return func.sum((OrderedItem.cost) * (OrderedItem.quantity))
 
     # Order status
     accepted = Column(Boolean, default=False)  # For shops
