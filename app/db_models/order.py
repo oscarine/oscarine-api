@@ -23,7 +23,7 @@ class Order(Base):
     user_instructions = Column(String(length=150))
     status = Column(
         ChoiceType(ORDER_STATUS_TYPES, impl=String(length=20)),
-        default="not-accepted",
+        default="pending",
         nullable=False,
     )
 

@@ -1,5 +1,5 @@
 """
-`not-accepted` is the default type.
+`pending` is the default type.
 
 `declined` type will be used by shops, but the order
 can't be declined once the order has been accepted.
@@ -10,7 +10,7 @@ can't be declined once the order has been accepted.
 """
 
 ORDER_STATUS_TYPES = [
-    ('not-accepted', 'Not Accepted'),
+    ('pending', 'Pending'),
     ('accepted', 'Accepted'),
     ('declined', 'Declined'),
     ('cancelled', 'Cancelled'),
