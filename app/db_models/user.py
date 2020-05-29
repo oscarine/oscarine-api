@@ -17,4 +17,3 @@ class User(Base):
     email_verified = Column(Boolean, default=False)
     otp = Column(Integer, nullable=False)
     otp_created_at = Column(DateTime, default=datetime.utcnow)
-    orders = relation("Order", back_populates="user")
