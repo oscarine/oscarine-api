@@ -11,15 +11,14 @@ from sqlalchemy_utils.types.choice import ChoiceType
 
 
 class Order(Base):
-    __tablename__ = 'orders'
-
     id = Column(Integer, primary_key=True, index=True)
     order_datetime = Column(DateTime, default=datetime.utcnow, nullable=False)
-    ordered_items = relation("OrderedItem", back_populates="order")
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    user = relation("User", back_populates="orders")
+    user = relation("User", backref="orders")
     shop_id = Column(Integer, ForeignKey('shops.id'), nullable=False)
-    shop = relation("Shop", back_populates="orders")
+    shop = relation("Shop", backref="orders")
+    address_id = Column(Integer, ForeignKey('address.id'), nullable=False)
+    address = relation("Address", backref="orders")
     user_instructions = Column(String(length=150))
     status = Column(
         ChoiceType(ORDER_STATUS_TYPES, impl=String(length=20)),
