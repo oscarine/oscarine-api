@@ -7,11 +7,9 @@ from geoalchemy2.types import Geography
 
 class Address(Base):
     """To store the addresses of user.
-    
+
     `tag` can be Home, Work, Other etc.
     """
-
-    __tablename__ = 'addresses'
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
