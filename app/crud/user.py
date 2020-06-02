@@ -5,7 +5,6 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import EmailStr
 from sqlalchemy.orm import Session
 
-from app.api.utils.parsing import remove_none_from_dict
 from app.core.security import get_password_hash, verify_password
 from app.db_models.user import User
 from app.models.user import UserCreate, UserUpdate
@@ -46,8 +45,7 @@ def authenticate(
 
 
 def update_user_info(db_session: Session, *, user: User, data: UserUpdate) -> User:
-    user_data = jsonable_encoder(data)
-    data = remove_none_from_dict(user_data)
+    data = jsonable_encoder(data, exclude_none=True)
     if "email" in data:
         user_by_email = get_by_email(db_session, email=data["email"])
         if user_by_email:
