@@ -5,7 +5,6 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import EmailStr
 from sqlalchemy.orm import Session
 
-from app.api.utils.parsing import remove_none_from_dict
 from app.core.security import get_password_hash, verify_password
 from app.db_models.owner import Owner
 from app.models.owner import OwnerCreate, OwnerUpdate
@@ -50,8 +49,7 @@ def authenticate(
 
 
 def update_owner_info(db_session: Session, *, owner: Owner, data: OwnerUpdate) -> Owner:
-    owner_data = jsonable_encoder(data)
-    data = remove_none_from_dict(owner_data)
+    data = jsonable_encoder(data, exclude_none=True)
     if "email" in data:
         owner_by_email = get_by_email(db_session, email=data["email"])
         if owner_by_email:
