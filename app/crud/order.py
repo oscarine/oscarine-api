@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.db_models.item import Item
 from app.db_models.order import Order
-from app.db_models.ordered_item import OrderedItem
+from app.db_models.ordered_item import OrderedItem as OrderedItemDbModel
 from app.db_models.user import User
 from app.models.order import CreateOrder, OrderedItem
 
@@ -25,12 +25,12 @@ def add_ordered_items(
     order: Order,
     ordered_items: List[OrderedItem],
     db_items: List[Item],
-) -> List[OrderedItem]:
+) -> List[OrderedItemDbModel]:
     items = []
     for item in ordered_items:
         for db_item in db_items:
             if db_item.id is item.item_id:
-                ordered_item = OrderedItem(
+                ordered_item = OrderedItemDbModel(
                     order_id=order.id,
                     item_id=item.item_id,
                     quantity=item.quantity,
