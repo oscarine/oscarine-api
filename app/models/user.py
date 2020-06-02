@@ -30,6 +30,9 @@ class UserResponse(BaseModel):
     id: int
     email_verified: bool
 
+    class Config:
+        orm_mode = True
+
 
 class VerifyUserEmail(BaseModel):
     email: EmailStr
