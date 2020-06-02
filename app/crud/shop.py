@@ -32,3 +32,9 @@ def shops_for_users(db_session: Session, *, longitude: float, latitude: float) -
         Shop.location.ST_DWithin(func.ST_GeogFromText(point_ewkt), Shop.radius_metres)
     )
     return shops
+
+
+def shop_by_id(db_session: Session, *, shop_id: int) -> Shop:
+    if shop := db_session.query(Shop).filter_by(id=shop_id).first():
+        return shop
+    return None
