@@ -33,14 +33,12 @@ async def register_user(
     *, db: Session = Depends(get_db), data: UserCreate, background_tasks: BackgroundTasks
 ):
     """registering new users."""
-    user = get_by_email(db, email=data.email)
-    if user:
-        raise HTTPException(
-            status_code=400, detail="The user with this email already exists.",
-        )
     otp = generate_random_otp()
-    user = create_user(db, user_in=data, otp=otp)
-    background_tasks.add_task(send_email_verify_otp, data.email, otp)
+    with expected_integrity_error(
+        db, detail="There was a conflict with an existing user.", debug=False
+    ):
+        if user := create_user(db, user_in=data, otp=otp):
+            background_tasks.add_task(send_email_verify_otp, user.email, user.otp)
     return user
 
 
