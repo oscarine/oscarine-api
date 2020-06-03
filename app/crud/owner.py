@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 
 from fastapi import HTTPException
@@ -5,7 +6,6 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import EmailStr
 from sqlalchemy.orm import Session
 
-from app.api.utils.parsing import remove_none_from_dict
 from app.core.security import get_password_hash, verify_password
 from app.db_models.owner import Owner
 from app.models.owner import OwnerCreate, OwnerUpdate
@@ -49,17 +49,21 @@ def authenticate(
     return owner
 
 
-def update_owner_info(db_session: Session, *, owner: Owner, data: OwnerUpdate) -> Owner:
-    owner_data = jsonable_encoder(data)
-    data = remove_none_from_dict(owner_data)
-    if "email" in data:
-        owner_by_email = get_by_email(db_session, email=data["email"])
-        if owner_by_email:
-            raise HTTPException(
-                status_code=422, detail="The owner with this email already exists."
-            )
+def update_owner_info(
+    db_session: Session, *, owner: Owner, data: OwnerUpdate, otp: int = None
+) -> Owner:
+    """If `otp` sent is not None:
+        `user.otp = otp`
+        `user.email_verified = False`
+        `user.otp_created_at = datetime.utcnow()`
+    """
+    data = jsonable_encoder(data, exclude_none=True)
     for field in data:
         setattr(owner, field, data[field])
+    if otp:
+        owner.otp = otp
+        owner.email_verified = False
+        owner.otp_created_at = datetime.utcnow()
     db_session.add(owner)
     db_session.commit()
     db_session.refresh(owner)

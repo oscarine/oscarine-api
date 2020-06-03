@@ -8,8 +8,8 @@ from app.db.base_class import Base
 
 class Owner(Base):
     id = Column(Integer, primary_key=True, index=True)
-    email = Column(String(120), index=True, unique=True)
-    password_hash = Column(String())
+    email = Column(String(120), index=True, unique=True, nullable=False)
+    password_hash = Column(String(), nullable=False)
     name = Column(String(30))
     phone_number = Column(String(15))
     avatar_image = Column(String(120))
