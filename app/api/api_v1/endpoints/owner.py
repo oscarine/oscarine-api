@@ -40,11 +40,10 @@ async def register_owner(
     """registering new owners."""
     otp = generate_random_otp()
     with expected_integrity_error(
-        db, detail="There was a conflict with an existing user", debug=False
+        db, detail="There was a conflict with an existing owner.", debug=False
     ):
-        owner = create_owner(db, user_in=data, otp=otp)
-    if owner is not None:
-        background_tasks.add_task(send_email_verify_otp, data.email, otp)
+        if owner := create_owner(db, user_in=data, otp=otp):
+            background_tasks.add_task(send_email_verify_otp, owner.email, owner.otp)
     return owner
 
 
