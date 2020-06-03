@@ -1,8 +1,8 @@
-"""order_and_ordered_item_tables
+"""order and ordered_item tables
 
-Revision ID: 469e75dfa8c3
-Revises: 57f5a2ad41b0
-Create Date: 2020-05-31 01:17:39.222917
+Revision ID: db26174ec486
+Revises: 41a26b9d2ff9
+Create Date: 2020-06-03 18:00:02.669527
 
 """
 from alembic import op
@@ -13,8 +13,8 @@ from app.choices.order_status import ORDER_STATUS_TYPES
 
 
 # revision identifiers, used by Alembic.
-revision = '469e75dfa8c3'
-down_revision = '57f5a2ad41b0'
+revision = 'db26174ec486'
+down_revision = '41a26b9d2ff9'
 branch_labels = None
 depends_on = None
 
