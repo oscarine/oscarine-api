@@ -4,6 +4,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.api.utils.db import get_db
+from app.api.utils.error import expected_integrity_error
 from app.api.utils.otp import generate_random_otp
 from app.api.utils.security import get_current_user
 from app.core import config
@@ -76,18 +77,16 @@ async def update_user(
     current_user: DBUser = Depends(get_current_user),
     background_tasks: BackgroundTasks,
 ):
-    """If `email` is found in data, email will no longer be verified
-       and new OTP as well as OTP datetime will be generated.
+    """If new `email` is found in data, email will no longer be
+       verified and new OTP as well as OTP datetime will be generated.
     """
     otp = None
-    if data.email:
-        if get_by_email(db, email=data.email):
-            raise HTTPException(
-                status_code=409, detail="The user with this email already exists."
-            )
+    if data.email and data.email != current_user.email:
         otp = generate_random_otp()
-    if user := update_user_info(db, data=data, user=current_user, otp=otp):
-        if otp and user.email:
-            background_tasks.add_task(send_email_verify_otp, user.email, otp)
-        return user
-    raise HTTPException(status_code=400, detail="Cannot update user info.")
+    with expected_integrity_error(
+        db, detail="There was a conflict with an existing user.", debug=False
+    ):
+        if user := update_user_info(db, data=data, user=current_user, otp=otp):
+            if otp and user.email:
+                background_tasks.add_task(send_email_verify_otp, user.email, otp)
+    return user

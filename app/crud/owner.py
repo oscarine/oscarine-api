@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 
 from fastapi import HTTPException
@@ -48,16 +49,21 @@ def authenticate(
     return owner
 
 
-def update_owner_info(db_session: Session, *, owner: Owner, data: OwnerUpdate) -> Owner:
+def update_owner_info(
+    db_session: Session, *, owner: Owner, data: OwnerUpdate, otp: int = None
+) -> Owner:
+    """If `otp` sent is not None:
+        `user.otp = otp`
+        `user.email_verified = False`
+        `user.otp_created_at = datetime.utcnow()`
+    """
     data = jsonable_encoder(data, exclude_none=True)
-    if "email" in data:
-        owner_by_email = get_by_email(db_session, email=data["email"])
-        if owner_by_email:
-            raise HTTPException(
-                status_code=422, detail="The owner with this email already exists."
-            )
     for field in data:
         setattr(owner, field, data[field])
+    if otp:
+        owner.otp = otp
+        owner.email_verified = False
+        owner.otp_created_at = datetime.utcnow()
     db_session.add(owner)
     db_session.commit()
     db_session.refresh(owner)

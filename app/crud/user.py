@@ -6,7 +6,6 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import EmailStr
 from sqlalchemy.orm import Session
 
-from app.api.utils.otp import generate_random_otp
 from app.core.security import get_password_hash, verify_password
 from app.db_models.user import User
 from app.models.user import UserCreate, UserUpdate
@@ -49,7 +48,7 @@ def authenticate(
 def update_user_info(
     db_session: Session, *, user: User, data: UserUpdate, otp: int = None
 ) -> User:
-    """If `otp` is sent in the argument:
+    """If `otp` sent is not None:
         `user.otp = otp`
         `user.email_verified = False`
         `user.otp_created_at = datetime.utcnow()`
