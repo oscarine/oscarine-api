@@ -40,3 +40,16 @@ def add_ordered_items(
     db_session.add_all(items)
     db_session.commit()
     return items
+
+
+def get_order_by_id(db_session: Session, *, id: int):
+    if order := db_session.query(Order).filter(Order.id == id).first():
+        return order
+    return None
+
+
+def edit_order_status(db_session: Session, *, order: Order, order_status: str):
+    order.status = order_status
+    db_session.commit()
+    db_session.refresh(order)
+    return order

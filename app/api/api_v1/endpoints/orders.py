@@ -1,15 +1,29 @@
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import PositiveInt
 from sqlalchemy.orm import Session
 
 from app.api.utils.db import get_db
 from app.api.utils.error import expected_integrity_error
+from app.api.utils.owner_security import get_current_owner
 from app.api.utils.security import get_current_user
 from app.crud.address import get_address_by_id
 from app.crud.item import item_by_ids_and_shop
-from app.crud.order import add_ordered_items, create_order
-from app.crud.shop import shop_by_id
+from app.crud.order import (
+    add_ordered_items,
+    create_order,
+    edit_order_status,
+    get_order_by_id,
+)
+from app.crud.shop import get_shop_by_id, shop_by_id
+from app.db_models.owner import Owner
 from app.db_models.user import User
-from app.models.order import CreateOrder, OrderDetails
+from app.models.order import (
+    CreateOrder,
+    EditOrderStatusForOwner,
+    EditOrderStatusMessage,
+    OrderDetails,
+    OrderStatusForOwner,
+)
 
 router = APIRouter()
 
@@ -40,9 +54,45 @@ async def create_new_order(
                                 db_items=items,
                             )
                             order.ordered_items = ordered_items
+                            # TODO: Send order confirmation email to user
+                            # and new order email to owner of the shop
                         return order
                 raise HTTPException(
                     status_code=400, detail="Some item(s) does not exists in this shop."
                 )
         raise HTTPException(status_code=400, detail="Invalid user address.")
     raise HTTPException(status_code=400, detail="No such shop exists.")
+
+
+@router.put("/orders/{order_id}/status", response_model=EditOrderStatusMessage)
+async def edit_order_status_for_owner(
+    *,
+    order_id: PositiveInt,
+    data: EditOrderStatusForOwner,
+    db: Session = Depends(get_db),
+    current_owner: Owner = Depends(get_current_owner),
+):
+    if order := get_order_by_id(db, id=order_id):
+        if shop := get_shop_by_id(db, shop_id=order.shop_id, owner_id=current_owner.id):
+            current_status = order.status.code
+            if (
+                data.status == OrderStatusForOwner.accepted
+                or data.status == OrderStatusForOwner.declined
+            ):
+                if current_status != "pending":
+                    raise HTTPException(
+                        status_code=400,
+                        detail="Only pending order can be accepted or declined.",
+                    )
+            else:
+                if current_status != "accepted":
+                    raise HTTPException(
+                        status_code=400, detail="Only accepted order can be delivered."
+                    )
+            if order := edit_order_status(db, order=order, order_status=data.status):
+                # TODO: Notify user regarding the new order status through email.
+                return EditOrderStatusMessage(
+                    status=order.status.value, message="Order status changed."
+                )
+        raise HTTPException(status_code=403, detail="Not allowed for this owner.")
+    raise HTTPException(status_code=404, detail="No such order exists.")

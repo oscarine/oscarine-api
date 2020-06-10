@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import Enum
 from typing import List, Optional
 
 from pydantic import BaseModel, PositiveInt, constr
@@ -37,3 +38,18 @@ class OrderDetails(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class OrderStatusForOwner(str, Enum):
+    accepted = 'accepted'
+    declined = 'declined'
+    delivered = 'delivered'
+
+
+class EditOrderStatusForOwner(BaseModel):
+    status: OrderStatusForOwner
+
+
+class EditOrderStatusMessage(BaseModel):
+    status: str
+    message: str
