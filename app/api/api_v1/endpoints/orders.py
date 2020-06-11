@@ -96,3 +96,25 @@ async def edit_order_status_for_owner(
                 )
         raise HTTPException(status_code=403, detail="Not allowed for this owner.")
     raise HTTPException(status_code=404, detail="No such order exists.")
+
+
+@router.put("/orders/{order_id}/cancel", response_model=EditOrderStatusMessage)
+async def cancel_order_for_user(
+    *,
+    order_id: PositiveInt,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if order := get_order_by_id(db, id=order_id):
+        if order.user_id == current_user.id:
+            current_status = order.status.code
+            if current_status in ["declined", "cancelled", "delivered"]:
+                raise HTTPException(status_code=400, detail="Order can't be cancelled.")
+            if order := edit_order_status(db, order=order, order_status="cancelled"):
+                # TODO: Notify owner that order has been cancelled through email.
+                # Also, send email to user that the order has been cancelled.
+                return EditOrderStatusMessage(
+                    status=order.status.value, message="Order cancelled."
+                )
+        raise HTTPException(status_code=403, detail="Not allowed for this user.")
+    raise HTTPException(status_code=404, detail="No such order exists.")
