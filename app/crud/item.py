@@ -53,3 +53,18 @@ def items_by_shop_id(db_session: Session, *, shop_id: int) -> List[Item]:
     if items:
         return items
     return None
+
+
+def item_by_ids_and_shop(
+    db_session: Session, *, shop_id: int, ids: List[int]
+) -> List[Item]:
+    items = (
+        db_session.query(Item)
+        .filter(Item.id.in_(ids))
+        .filter(Item.shop_id == shop_id)
+        .filter(Item.item_available)
+        .all()
+    )
+    if items:
+        return items
+    return None
