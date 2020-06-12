@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from fastapi.encoders import jsonable_encoder
@@ -31,14 +32,17 @@ def get_user_addresses(db_session: Session, *, user_id: int) -> List[Address]:
     return None
 
 
-def get_address_by_id(db_session: Session, *, id: int, user_id: int) -> Address:
-    address = (
+def get_address_by_id(
+    db_session: Session, *, id: int, user_id: int, include_archived: bool = False
+) -> Address:
+    query = (
         db_session.query(Address)
         .filter(Address.user_id == user_id)
         .filter(Address.id == id)
-        .first()
     )
-    if address:
+    if not include_archived:
+        query = query.filter(Address.archived == False)
+    if address := query.first():
         return address
     return None
 
@@ -57,5 +61,6 @@ def edit_user_address(
 
 
 def delete_user_address(db_session: Session, *, address: Address):
-    db_session.delete(address)
+    address.deleted_at = datetime.utcnow()
+    address.archived = True
     db_session.commit()
