@@ -21,14 +21,14 @@ def add_user_address(db_session: Session, *, user_id: int, data: UserAddress) ->
     return address
 
 
-def get_user_addresses(db_session: Session, *, user_id: int) -> List[Address]:
-    addresses = (
-        db_session.query(Address)
-        .filter(Address.user_id == user_id)
-        .order_by(Address.id.desc())
-        .all()
-    )
-    if addresses:
+def get_user_addresses(
+    db_session: Session, *, user_id: int, include_archived: bool = False
+) -> List[Address]:
+    query = db_session.query(Address).filter(Address.user_id == user_id)
+    if not include_archived:
+        query = query.filter(Address.archived == False)
+    query = query.order_by(Address.id.desc())
+    if addresses := query.all():
         return addresses
     return None
 
