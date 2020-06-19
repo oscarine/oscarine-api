@@ -4,6 +4,7 @@ from typing import List
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
+from app.api.utils.db import clone_db_model
 from app.db_models.address import Address
 from app.models.address import EditAddress, UserAddress
 
@@ -50,14 +51,20 @@ def get_address_by_id(
 def edit_user_address(
     db_session: Session, *, address: Address, data: EditAddress
 ) -> Address:
+    address_clone = clone_db_model(model=address)
     data = jsonable_encoder(data, exclude_none=True)
     for field in data:
-        setattr(address, field, data[field])
+        setattr(address_clone, field, data[field])
     if "longitude" in data and "latitude" in data:
-        address.location = f"POINT({data['longitude']} {data['latitude']})"
+        address_clone.location = f"POINT({data['longitude']} {data['latitude']})"
+    else:
+        address_clone.location = f"POINT({address.longitude} {address.latitude})"
+    db_session.add(address_clone)
+    # Archive the old address after creating the clone.
+    address.archived = True
     db_session.commit()
-    db_session.refresh(address)
-    return address
+    db_session.refresh(address_clone)
+    return address_clone
 
 
 def delete_user_address(db_session: Session, *, address: Address):
