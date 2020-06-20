@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, Numeric, String
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, Numeric, String
 from sqlalchemy.orm import relation
 
 from app.db.base_class import Base
@@ -21,3 +21,7 @@ class Address(Base):
     tag = Column(String(length=30), nullable=False)
     floor = Column(String(length=50))
     landmark = Column(String(length=100))
+
+    # Immutable address
+    deleted_at = Column(DateTime)
+    archived = Column(Boolean, default=False)
