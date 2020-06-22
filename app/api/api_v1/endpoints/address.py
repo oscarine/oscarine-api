@@ -15,7 +15,12 @@ from app.crud.address import (
     get_user_addresses,
 )
 from app.db_models.user import User
-from app.models.address import AddressDetails, EditAddress, UserAddress
+from app.models.address import (
+    AddressDetails,
+    DeleteAddressResponse,
+    EditAddress,
+    UserAddress,
+)
 
 router = APIRouter()
 
@@ -71,7 +76,7 @@ async def edit_address(
     )
 
 
-@router.delete("/addresses/{address_id}", response_class=JSONResponse)
+@router.delete("/addresses/{address_id}", response_model=DeleteAddressResponse)
 async def delete_address(
     *,
     address_id: PositiveInt,
@@ -80,7 +85,7 @@ async def delete_address(
 ):
     if address := get_address_by_id(db, id=address_id, user_id=current_user.id):
         delete_user_address(db, address=address)
-        return {"message": "Address deleted successfully."}
+        return DeleteAddressResponse(message="Address deleted successfully.")
     raise HTTPException(
         status_code=401, detail="This user cannot delete address with this id."
     )
