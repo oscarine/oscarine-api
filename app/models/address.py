@@ -47,3 +47,7 @@ class EditAddress(BaseModel):
         raise ValueError(
             "Both longitude and latitude should be provided or neither of them."
         )
+
+
+class DeleteAddressResponse(BaseModel):
+    message: str
