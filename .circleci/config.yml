@@ -1,0 +1,26 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/oscarine-api
+    docker:
+      - image: circleci/python:3.8.2
+        environment:
+          DATABASE_URL: postgresql://root@localhost/oscarine_db_test?sslmode=disable
+      - image: circleci/postgres:12.2-postgis
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: oscarine_db_test
+    steps:
+      - checkout
+      - run:
+          command: |
+            python3 -m venv venv
+            source venv/bin/activate
+            pip install -r requirements/tests.txt
+            alembic upgrade head
+            uvicorn app.main:app
+    - store_test_results:
+        path: test-results
+    - store_artifacts:
+        path: test-results
+        destination: tr1
