@@ -6,7 +6,7 @@ jobs:
       - image: circleci/python:3.8.2
         environment:
           DATABASE_URL: postgresql://root@localhost/oscarine_db_test?sslmode=disable
-      - image: circleci/postgres:12.2-postgis
+      - image: circleci/postgres:12.2-postgis-ram
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: oscarine_db_test
