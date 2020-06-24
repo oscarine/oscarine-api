@@ -32,6 +32,10 @@ jobs:
             pip install -r requirements/tests.txt
             alembic upgrade head
 
+      - run:
+          name: Lint Check
+          command: sh scripts/lint.sh
+
       - save_cache:
           paths:
             - ./venv
