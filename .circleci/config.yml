@@ -5,7 +5,6 @@ jobs:
     docker:
       - image: circleci/python:3.8.2
         environment:
-          PROJECT_NAME: test-oscarine-api
           DATABASE_URL: postgresql://postgres@localhost/oscarine_db_test?sslmode=disable
       - image: circleci/postgres:12.2-postgis-ram
         environment:
@@ -20,7 +19,6 @@ jobs:
             source venv/bin/activate
             pip install -r requirements/tests.txt
             alembic upgrade head
-            uvicorn app.main:app
       - store_test_results:
           path: test-results
       - store_artifacts:
