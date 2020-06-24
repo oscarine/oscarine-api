@@ -23,17 +23,22 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 8
 OTP_EXPIRY_MINUTES = 5
 
 # Configs for sending emails
-MAIL_SERVER = os.getenv("MAIL_SERVER")
-MAIL_PORT = int(os.getenv("MAIL_PORT")) or 465
-MAIL_USERNAME = os.getenv("MAIL_USERNAME")
-MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
-MAIL_SENDER = os.getenv("MAIL_SENDER")
-if tls := os.getenv("MAIL_USE_TLS"):
-    if tls == "True":
+if os.getenv("MAIL_ENABLED") == "True":
+    MAIL_ENABLED = True
+    MAIL_SERVER = os.getenv("MAIL_SERVER")
+    MAIL_PORT = int(os.getenv("MAIL_PORT")) or 465
+    MAIL_USERNAME = os.getenv("MAIL_USERNAME")
+    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
+    MAIL_SENDER = os.getenv("MAIL_SENDER")
+    if tls := os.getenv("MAIL_USE_TLS"):
+        if tls == "True":
+            MAIL_USE_TLS = True
+        elif tls == "False":
+            MAIL_USE_TLS = False
+            warning("Setting MAIL_USE_TLS to `False`")
+    else:
         MAIL_USE_TLS = True
-    elif tls == "False":
-        MAIL_USE_TLS = False
-        warning("Setting MAIL_USE_TLS to `False`")
+        warning("Invalid .env value provided for MAIL_USE_TLS. Setting it to `True`")
 else:
-    MAIL_USE_TLS = True
-    warning("Invalid .env value provided for MAIL_USE_TLS. Setting it to `True`")
+    warning("Setting MAIL_ENABLED env variable `False`")
+    MAIL_ENABLED = False
