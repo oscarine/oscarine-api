@@ -34,7 +34,7 @@ jobs:
 
       - run:
           name: Lint Check
-          command: sh scripts/lint.sh
+          command: . venv/bin/activate && sh scripts/lint.sh
 
       - save_cache:
           paths:
