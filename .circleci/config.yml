@@ -13,14 +13,33 @@ jobs:
           POSTGRES_HOST_AUTH_METHOD: trust
     steps:
       - checkout
+
       - run:
+          command: cat requirements/*.txt > requirements/combined.txt
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements/combined.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: Install Python Dependencies and Run Migrations
           command: |
             python3 -m venv venv
             source venv/bin/activate
             pip install -r requirements/tests.txt
             alembic upgrade head
+
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements/combined.txt" }}
+
       - store_test_results:
           path: test-results
+
       - store_artifacts:
           path: test-results
           destination: tr1
