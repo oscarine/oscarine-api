@@ -1,5 +1,7 @@
 # OSCARINE-API
 
+[![CircleCI](https://img.shields.io/circleci/build/github/oscarine/oscarine-api?label=CircleCI%20Build&style=for-the-badge)](https://circleci.com/gh/oscarine/oscarine-api)
+
 ## Quickstart
 *Run the following commands to bootstrap your development environment*
 
