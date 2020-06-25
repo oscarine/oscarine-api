@@ -17,6 +17,7 @@ from app.crud.order import (
 from app.crud.shop import get_shop_by_id, shop_by_id
 from app.db_models.owner import Owner
 from app.db_models.user import User
+from app.fsm.order import OrderStatus
 from app.models.order import (
     CreateOrder,
     EditOrderStatusForOwner,
@@ -24,6 +25,7 @@ from app.models.order import (
     OrderDetails,
     OrderStatusForOwner,
 )
+from transitions.core import MachineError
 
 router = APIRouter()
 
@@ -75,21 +77,32 @@ async def edit_order_status_for_owner(
     if order := get_order_by_id(db, id=order_id):
         if shop := get_shop_by_id(db, shop_id=order.shop_id, owner_id=current_owner.id):
             current_status = order.status.code
-            if (
-                data.status == OrderStatusForOwner.accepted
-                or data.status == OrderStatusForOwner.declined
-            ):
-                if current_status != "pending":
+            order_status = OrderStatus(initial_state=current_status)
+            if data.status == OrderStatusForOwner.accepted:
+                try:
+                    order_status.accept_order()
+                except MachineError:
                     raise HTTPException(
-                        status_code=400,
-                        detail="Only pending order can be accepted or declined.",
+                        status_code=400, detail="Only pending order can be accepted.",
+                    )
+            elif data.status == OrderStatusForOwner.declined:
+                try:
+                    order_status.decline_order()
+                except MachineError:
+                    raise HTTPException(
+                        status_code=400, detail="Only pending order can be declined.",
                     )
             else:
-                if current_status != "accepted":
+                try:
+                    order_status.deliver_order()
+                except MachineError:
                     raise HTTPException(
-                        status_code=400, detail="Only accepted order can be delivered."
+                        status_code=400, detail="Only accepted order can be delivered.",
                     )
-            if order := edit_order_status(db, order=order, order_status=data.status):
+            # To get the new order status `order_status.state`
+            if order := edit_order_status(
+                db, order=order, order_status=order_status.state
+            ):
                 # TODO: Notify user regarding the new order status through email.
                 return EditOrderStatusMessage(
                     status=order.status.value, message="Order status changed."
