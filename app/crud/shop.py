@@ -2,7 +2,6 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
-from app.api.utils.db import clone_db_model
 from app.db_models.shop import Shop
 from app.models.shop import ShopRegister, ShopUpdate
 
@@ -47,7 +46,6 @@ def update_shop(db_session: Session, *, shop: Shop, data: ShopUpdate) -> Shop:
         setattr(shop, field, data[field])
     if "longitude" in data and "latitude" in data:
         shop.location = f"POINT({data['longitude']} {data['latitude']})"
-    db_session.add(shop)
     db_session.commit()
     db_session.refresh(shop)
     return shop

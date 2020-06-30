@@ -81,6 +81,4 @@ async def owner_update_shop(
     if shop := get_shop_by_id(db, shop_id=shop_id, owner_id=current_owner.id):
         if shop := update_shop(db, shop=shop, data=data):
             return shop
-    raise HTTPException(
-        status_code=401, detail="This owner cannot update shop with this id."
-    )
+    raise HTTPException(status_code=403, detail="This owner cannot update this shop.")
