@@ -8,10 +8,10 @@ from app.api.utils.db import get_db
 from app.api.utils.owner_security import get_current_owner
 from app.api.utils.pagination import pagination
 from app.api.utils.security import get_current_user
-from app.crud.shop import get_shop_by_id, register_new_shop, shops_for_users
+from app.crud.shop import get_shop_by_id, register_new_shop, shops_for_users, update_shop
 from app.db_models.owner import Owner as DBOwnerModel
 from app.db_models.user import User as DBUser
-from app.models.shop import ShopDetails, ShopDetailsForUsers, ShopRegister
+from app.models.shop import ShopDetails, ShopDetailsForUsers, ShopRegister, ShopUpdate
 
 router = APIRouter()
 
@@ -68,3 +68,19 @@ async def list_of_shops_for_users(
     if shops:
         return shops
     raise HTTPException(status_code=404, detail="Cannot find shops for your location.")
+
+
+@router.patch("/shops/{shop_id}", response_model=ShopDetails)
+async def owner_update_shop(
+    *,
+    shop_id: PositiveInt,
+    db: Session = Depends(get_db),
+    data: ShopUpdate,
+    current_owner: DBOwnerModel = Depends(get_current_owner),
+):
+    if shop := get_shop_by_id(db, shop_id=shop_id, owner_id=current_owner.id):
+        if shop := update_shop(db, shop=shop, data=data):
+            return shop
+    raise HTTPException(
+        status_code=401, detail="This owner cannot update shop with this id."
+    )
