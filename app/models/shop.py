@@ -17,6 +17,7 @@ class ShopDetails(BaseModel):
     owner_id: int
     radius_metres: float
     phone_number: Optional[str]
+    is_available: bool
 
     class Config:
         orm_mode = True
