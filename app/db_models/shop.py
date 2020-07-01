@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, Numeric, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, Numeric, String
 from sqlalchemy.orm import relation
 
 from app.db.base_class import Base
@@ -10,6 +10,7 @@ class Shop(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(length=50), nullable=False)
+    is_available = Column(Boolean, default=True)
     phone_number = Column(String(15))
     address = Column(String(50), nullable=False)
     owner_id = Column(Integer, ForeignKey('owner.id'), nullable=False)
