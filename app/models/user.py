@@ -9,11 +9,6 @@ class UserCreate(BaseModel):
     password: str
 
 
-class UserLogin(BaseModel):
-    email: EmailStr
-    password: str
-
-
 class UserUpdate(BaseModel):
     email: EmailStr = None
     name: str = None
@@ -32,13 +27,3 @@ class UserResponse(BaseModel):
 
     class Config:
         orm_mode = True
-
-
-class VerifyUserEmail(BaseModel):
-    email: EmailStr
-    otp: int
-
-
-class EmailVerifyResponse(BaseModel):
-    verified: StrictBool
-    message: str

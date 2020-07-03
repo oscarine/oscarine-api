@@ -9,21 +9,9 @@ from app.api.utils.otp import generate_random_otp
 from app.api.utils.security import get_current_user
 from app.core import config
 from app.core.email import send_email_verify_otp
-from app.crud.user import (
-    create_user,
-    get_by_email,
-    get_by_id,
-    update_user_info,
-    user_email_verified,
-)
+from app.crud.user import create_user, get_by_id, update_user_info
 from app.db_models.user import User as DBUser
-from app.models.user import (
-    EmailVerifyResponse,
-    UserCreate,
-    UserResponse,
-    UserUpdate,
-    VerifyUserEmail,
-)
+from app.models.user import UserCreate, UserResponse, UserUpdate
 
 router = APIRouter()
 
@@ -40,22 +28,6 @@ async def register_user(
         if user := create_user(db, user_in=data, otp=otp):
             background_tasks.add_task(send_email_verify_otp, user.email, user.otp)
     return user
-
-
-@router.post("/users/verify_email", response_model=EmailVerifyResponse)
-async def verify_user_email_otp(*, data: VerifyUserEmail, db: Session = Depends(get_db)):
-    user = get_by_email(db, email=data.email)
-    if user and (user.otp == data.otp):
-        expiry_time = user.otp_created_at + timedelta(minutes=config.OTP_EXPIRY_MINUTES)
-        if expiry_time >= datetime.utcnow():
-            user = user_email_verified(db, user=user)
-            if user.email_verified:
-                return EmailVerifyResponse(
-                    verified=True, message="Your email has been verified."
-                )
-    raise HTTPException(
-        status_code=401, detail="Cannot verify your otp or it may have been expired."
-    )
 
 
 @router.get("/users", response_model=UserResponse)
