@@ -1,6 +1,4 @@
-from datetime import datetime
-
-from pydantic import AnyUrl, BaseModel, EmailStr, StrictBool
+from pydantic import BaseModel, EmailStr, StrictBool
 
 
 class Login(BaseModel):
