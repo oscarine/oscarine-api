@@ -31,18 +31,3 @@ class OwnerUpdate(BaseModel):
     avatar_image: AnyUrl = None
     city: str = None
     state: str = None
-
-
-class OwnerLogin(BaseModel):
-    email: EmailStr
-    password: str
-
-
-class VerifyOwnerEmail(BaseModel):
-    email: EmailStr
-    otp: int
-
-
-class OwnerEmailVerifyResponse(BaseModel):
-    verified: StrictBool
-    message: str
