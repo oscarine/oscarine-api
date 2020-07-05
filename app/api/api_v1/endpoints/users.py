@@ -39,7 +39,7 @@ async def get_user_details(
     raise HTTPException(status_code=404, detail="Can't find details of this user.")
 
 
-@router.put("/users", response_model=UserResponse)
+@router.patch("/users", response_model=UserResponse)
 async def update_user(
     *,
     db: Session = Depends(get_db),

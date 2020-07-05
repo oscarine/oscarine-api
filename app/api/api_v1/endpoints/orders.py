@@ -64,7 +64,7 @@ async def create_new_order(
     raise HTTPException(status_code=400, detail="No such shop exists.")
 
 
-@router.put("/orders/{order_id}/status", response_model=EditOrderStatusMessage)
+@router.patch("/orders/{order_id}/status", response_model=EditOrderStatusMessage)
 async def edit_order_status_for_owner(
     *,
     order_id: PositiveInt,
@@ -98,7 +98,7 @@ async def edit_order_status_for_owner(
     raise HTTPException(status_code=404, detail="No such order exists.")
 
 
-@router.put("/orders/{order_id}/cancel", response_model=EditOrderStatusMessage)
+@router.patch("/orders/{order_id}/cancel", response_model=EditOrderStatusMessage)
 async def cancel_order_for_user(
     *,
     order_id: PositiveInt,

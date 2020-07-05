@@ -60,7 +60,7 @@ async def single_address(
     )
 
 
-@router.put("/addresses/{address_id}", response_model=AddressDetails)
+@router.patch("/addresses/{address_id}", response_model=AddressDetails)
 async def edit_address(
     *,
     address_id: PositiveInt,

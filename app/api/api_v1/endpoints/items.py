@@ -43,7 +43,7 @@ async def add_item_to_shop(
     )
 
 
-@router.put("/items/{item_id}")
+@router.patch("/items/{item_id}")
 async def edit_item(
     *,
     item_id: PositiveInt,
