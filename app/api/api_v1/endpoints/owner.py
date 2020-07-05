@@ -44,7 +44,7 @@ async def get_owner_details(
     raise HTTPException(status_code=404, detail="Can't find details of this owner.")
 
 
-@router.put("/owners", response_model=OwnerDetails)
+@router.patch("/owners", response_model=OwnerDetails)
 async def update_owner(
     *,
     db: Session = Depends(get_db),
