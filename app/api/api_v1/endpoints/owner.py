@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Response, status
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
@@ -21,11 +21,7 @@ router = APIRouter()
 
 @router.post("/owners", response_model=OwnerDetails, status_code=201)
 async def register_owner(
-    *,
-    db: Session = Depends(get_db),
-    data: OwnerCreate,
-    background_tasks: BackgroundTasks,
-    response: Response,
+    *, db: Session = Depends(get_db), data: OwnerCreate, background_tasks: BackgroundTasks
 ):
     """registering new owners."""
     otp = generate_random_otp()
@@ -34,7 +30,6 @@ async def register_owner(
     ):
         if owner := create_owner(db, user_in=data, otp=otp):
             background_tasks.add_task(send_email_verify_otp, owner.email, owner.otp)
-    response.status_code = status.HTTP_201_CREATED
     return owner
 
 

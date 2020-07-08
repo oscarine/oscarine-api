@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Response, status
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.api.utils.db import get_db
@@ -18,11 +18,7 @@ router = APIRouter()
 
 @router.post("/users", response_model=UserResponse, status_code=201)
 async def register_user(
-    *,
-    db: Session = Depends(get_db),
-    data: UserCreate,
-    background_tasks: BackgroundTasks,
-    response: Response,
+    *, db: Session = Depends(get_db), data: UserCreate, background_tasks: BackgroundTasks
 ):
     """registering new users."""
     otp = generate_random_otp()
@@ -31,7 +27,6 @@ async def register_user(
     ):
         if user := create_user(db, user_in=data, otp=otp):
             background_tasks.add_task(send_email_verify_otp, user.email, user.otp)
-    response.status_code = status.HTTP_201_CREATED
     return user
 
 

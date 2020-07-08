@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import PositiveInt
 from sqlalchemy.orm import Session
 
@@ -30,7 +30,6 @@ async def add_item_to_shop(
     db: Session = Depends(get_db),
     data: Item,
     current_owner: Owner = Depends(get_current_owner),
-    response: Response,
 ):
     if get_shop_by_id(db, shop_id=shop_id, owner_id=current_owner.id):
         if item_by_name_and_shop(db, shop_id=shop_id, name=data.name):
@@ -38,7 +37,6 @@ async def add_item_to_shop(
             raise HTTPException(
                 status_code=409, detail="Item with this name already exists."
             )
-        response.status_code = status.HTTP_201_CREATED
         return add_item(db, shop_id=shop_id, owner_id=current_owner.id, data=data)
     raise HTTPException(
         status_code=403, detail="This owner is not allowed to add items to this shop."

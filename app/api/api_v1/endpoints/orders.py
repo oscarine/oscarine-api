@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import PositiveInt
 from sqlalchemy.orm import Session
 
@@ -34,7 +34,6 @@ async def create_new_order(
     db: Session = Depends(get_db),
     data: CreateOrder,
     current_user: User = Depends(get_current_user),
-    response: Response,
 ):
     if shop := shop_by_id(db, shop_id=data.shop_id):
         if get_address_by_id(db, id=data.address_id, user_id=current_user.id):
@@ -57,7 +56,6 @@ async def create_new_order(
                             order.ordered_items = ordered_items
                             # TODO: Send order confirmation email to user
                             # and new order email to owner of the shop
-                        response.status_code = status.HTTP_201_CREATED
                         return order
                 raise HTTPException(
                     status_code=400, detail="Some item(s) does not exists in this shop."
