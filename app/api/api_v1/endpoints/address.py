@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from fastapi.responses import JSONResponse
 from pydantic import PositiveInt
 from sqlalchemy.orm import Session
@@ -25,14 +25,16 @@ from app.models.address import (
 router = APIRouter()
 
 
-@router.post("/addresses", response_model=AddressDetails)
+@router.post("/addresses", response_model=AddressDetails, status_code=201)
 async def add_new_address(
     *,
     db: Session = Depends(get_db),
     data: UserAddress,
     current_user: User = Depends(get_current_user),
+    response: Response,
 ):
     if new_address := add_user_address(db, user_id=current_user.id, data=data):
+        response.status_code = status.HTTP_201_CREATED
         return new_address
     raise HTTPException(status_code=400, detail="Cannot add new address.")
 

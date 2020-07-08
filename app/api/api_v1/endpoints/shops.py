@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from pydantic import PositiveInt, confloat
 from sqlalchemy.orm import Session
 
@@ -16,14 +16,16 @@ from app.models.shop import ShopDetails, ShopDetailsForUsers, ShopRegister, Shop
 router = APIRouter()
 
 
-@router.post("/shops", response_model=ShopDetails)
+@router.post("/shops", response_model=ShopDetails, status_code=201)
 async def register_shop(
     *,
     db: Session = Depends(get_db),
     data: ShopRegister,
     current_owner: DBOwnerModel = Depends(get_current_owner),
+    response: Response,
 ):
     shop = register_new_shop(db, owner_id=current_owner.id, data=data)
+    response.status_code = status.HTTP_201_CREATED
     return shop
 
 
