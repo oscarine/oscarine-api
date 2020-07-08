@@ -23,7 +23,7 @@ from app.models.item import Item, ItemResponseForOwner, ItemResponseForUser, Upd
 router = APIRouter()
 
 
-@router.post("/items/{shop_id}", response_model=ItemResponseForOwner)
+@router.post("/items/{shop_id}", response_model=ItemResponseForOwner, status_code=201)
 async def add_item_to_shop(
     *,
     shop_id: PositiveInt,

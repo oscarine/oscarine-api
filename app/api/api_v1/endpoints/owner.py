@@ -19,7 +19,7 @@ from app.models.token import Token
 router = APIRouter()
 
 
-@router.post("/owners", response_model=OwnerDetails)
+@router.post("/owners", response_model=OwnerDetails, status_code=201)
 async def register_owner(
     *, db: Session = Depends(get_db), data: OwnerCreate, background_tasks: BackgroundTasks
 ):

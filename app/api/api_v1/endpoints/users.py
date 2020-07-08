@@ -16,7 +16,7 @@ from app.models.user import UserCreate, UserResponse, UserUpdate
 router = APIRouter()
 
 
-@router.post("/users", response_model=UserResponse)
+@router.post("/users", response_model=UserResponse, status_code=201)
 async def register_user(
     *, db: Session = Depends(get_db), data: UserCreate, background_tasks: BackgroundTasks
 ):

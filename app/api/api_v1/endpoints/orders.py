@@ -28,7 +28,7 @@ from app.models.order import (
 router = APIRouter()
 
 
-@router.post("/orders", response_model=OrderDetails)
+@router.post("/orders", response_model=OrderDetails, status_code=201)
 async def create_new_order(
     *,
     db: Session = Depends(get_db),

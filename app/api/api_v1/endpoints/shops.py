@@ -16,7 +16,7 @@ from app.models.shop import ShopDetails, ShopDetailsForUsers, ShopRegister, Shop
 router = APIRouter()
 
 
-@router.post("/shops", response_model=ShopDetails)
+@router.post("/shops", response_model=ShopDetails, status_code=201)
 async def register_shop(
     *,
     db: Session = Depends(get_db),

@@ -25,7 +25,7 @@ from app.models.address import (
 router = APIRouter()
 
 
-@router.post("/addresses", response_model=AddressDetails)
+@router.post("/addresses", response_model=AddressDetails, status_code=201)
 async def add_new_address(
     *,
     db: Session = Depends(get_db),
