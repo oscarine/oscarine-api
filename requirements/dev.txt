@@ -2,5 +2,5 @@
 -r prod.txt
 
 black==19.10b0
-isort==5.1.1
+isort==5.1.4
 pre-commit==2.6.0
