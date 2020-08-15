@@ -1,7 +1,10 @@
+from typing import List
+
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import PositiveInt
 from sqlalchemy.orm import Session
 
+from app.api.utils.calculation import ItemCalculation
 from app.api.utils.db import get_db
 from app.api.utils.error import expected_integrity_error
 from app.api.utils.owner_security import get_current_owner
@@ -15,13 +18,16 @@ from app.crud.order import (
     get_order_by_id,
 )
 from app.crud.shop import get_shop_by_id, shop_by_id
+from app.db_models.item import Item
 from app.db_models.owner import Owner
 from app.db_models.user import User
 from app.models.order import (
     CreateOrder,
     EditOrderStatusForOwner,
     EditOrderStatusMessage,
+    ItemsTotalCost,
     OrderDetails,
+    OrderedItem,
     OrderStatusForOwner,
 )
 
@@ -118,3 +124,13 @@ async def cancel_order_for_user(
                 )
         raise HTTPException(status_code=403, detail="Not allowed for this user.")
     raise HTTPException(status_code=404, detail="No such order exists.")
+
+
+@router.post("/order-calculation", response_model=ItemsTotalCost)
+async def item_calculation(*, db: Session = Depends(get_db), data: List[OrderedItem]):
+    item_ids = [item.item_id for item in data]
+    items = db.query(Item).filter(Item.id.in_(item_ids)).filter(Item.item_available).all()
+    if len(item_ids) == len(items):
+        items_cost = ItemCalculation(db, items=data, ids=item_ids)
+        return ItemsTotalCost(items_total_cost=items_cost)
+    raise HTTPException(status_code=400, detail="One or more item does not exists.")

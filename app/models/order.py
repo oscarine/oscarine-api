@@ -53,3 +53,7 @@ class EditOrderStatusForOwner(BaseModel):
 class EditOrderStatusMessage(BaseModel):
     status: str
     message: str
+
+
+class ItemsTotalCost(BaseModel):
+    items_total_cost: float
