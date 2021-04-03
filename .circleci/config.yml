@@ -36,6 +36,10 @@ jobs:
           name: Lint Check
           command: . venv/bin/activate && sh scripts/lint.sh
 
+      - run:
+          name: Start Running Tests
+          command: . venv/bin/activate && sh tests-start.sh
+
       - save_cache:
           paths:
             - ./venv
