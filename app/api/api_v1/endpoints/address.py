@@ -39,7 +39,9 @@ async def add_new_address(
 
 @router.get("/addresses", response_model=List[AddressDetails])
 async def list_of_addresses(
-    *, db: Session = Depends(get_db), current_user: User = Depends(get_current_user),
+    *,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     if addresses := get_user_addresses(db, user_id=current_user.id):
         return addresses

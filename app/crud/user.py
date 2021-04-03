@@ -32,9 +32,9 @@ def update_user_info(
     db_session: Session, *, user: User, data: UserUpdate, otp: int = None
 ) -> User:
     """If `otp` sent is not None:
-        `user.otp = otp`
-        `user.email_verified = False`
-        `user.otp_created_at = datetime.utcnow()`
+    `user.otp = otp`
+    `user.email_verified = False`
+    `user.otp_created_at = datetime.utcnow()`
     """
     data = jsonable_encoder(data, exclude_none=True)
     for field in data:
