@@ -4,10 +4,9 @@ import sys
 
 from tenacity import after_log, before_log, retry, stop_after_attempt, wait_fixed
 
-from app.db.session import Session
-
 sys.path.insert(0, os.path.realpath(os.path.join(os.path.dirname(__file__), '..')))
 
+from app.db.session import Session  # isort:skip
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
