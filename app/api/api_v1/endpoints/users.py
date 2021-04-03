@@ -1,5 +1,3 @@
-from datetime import datetime, timedelta
-
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -32,7 +30,9 @@ async def register_user(
 
 @router.get("/users", response_model=UserResponse)
 async def get_user_details(
-    *, db: Session = Depends(get_db), current_user: DBUser = Depends(get_current_user),
+    *,
+    db: Session = Depends(get_db),
+    current_user: DBUser = Depends(get_current_user),
 ):
     if user := get_by_id(db, user_id=current_user.id):
         return user
@@ -48,7 +48,7 @@ async def update_user(
     background_tasks: BackgroundTasks,
 ):
     """If new `email` is found in data, email will no longer be
-       verified and new OTP as well as OTP datetime will be generated.
+    verified and new OTP as well as OTP datetime will be generated.
     """
     otp = None
     if data.email and data.email != current_user.email:

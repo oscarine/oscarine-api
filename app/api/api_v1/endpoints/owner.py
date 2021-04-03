@@ -1,5 +1,3 @@
-from datetime import datetime, timedelta
-
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
@@ -53,7 +51,7 @@ async def update_owner(
     background_tasks: BackgroundTasks,
 ):
     """If new `email` is found in data, email will no longer be
-       verified and new OTP as well as OTP datetime will be generated.
+    verified and new OTP as well as OTP datetime will be generated.
     """
     otp = None
     if data.email and data.email != current_owner.email:
