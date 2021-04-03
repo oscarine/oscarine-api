@@ -1,1 +1,5 @@
 -r dev.txt
+
+pytest==6.2.2
+tenacity==7.0.0
+requests==2.25.1

@@ -22,6 +22,8 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 8
 
 OTP_EXPIRY_MINUTES = 5
 
+TESTING = os.getenv("TESTING", "False").lower() in ["true", "1"]
+
 # Configs for sending emails
 if os.getenv("MAIL_ENABLED") == "True":
     MAIL_ENABLED = True
