@@ -14,22 +14,19 @@ jobs:
     steps:
       - checkout
 
-      - run:
-          command: cat requirements/*.txt > requirements/combined.txt
-
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "requirements/combined.txt" }}
+            - v1.1-dependencies-{{ checksum "poetry.lock" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+            - v1.1-dependencies-
 
       - run:
           name: Install Python Dependencies and Run Migrations
           command: |
             python3 -m venv venv
             source venv/bin/activate
-            pip install -r requirements/tests.txt
+            poetry install
             alembic upgrade head
 
       - run:
@@ -43,7 +40,7 @@ jobs:
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-{{ checksum "requirements/combined.txt" }}
+          key: v1.1-dependencies-{{ checksum "poetry.lock" }}
 
       - store_test_results:
           path: test-results
