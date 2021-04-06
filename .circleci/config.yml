@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/oscarine-api
     docker:
-      - image: circleci/python:3.8.2
+      - image: circleci/python:3.8.5
         environment:
           DATABASE_URL: postgresql://postgres@localhost/oscarine_db_test?sslmode=disable
       - image: circleci/postgres:12.2-postgis-ram
