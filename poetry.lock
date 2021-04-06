@@ -800,8 +800,8 @@ python-versions = ">=3.6.1"
 
 [metadata]
 lock-version = "1.1"
-python-versions = "3.8"
-content-hash = "308ecfa39aece9d947a33e224cc512cd3314462ba4d3f2f272bf662852618c31"
+python-versions = "3.8.5"
+content-hash = "f8085e1408906b2f806b1a90a1816aeb5701f2ef51335a5164cef0805bd7d183"
 
 [metadata.files]
 aiosmtplib = [
