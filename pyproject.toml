@@ -51,7 +51,7 @@ fastapi = "0.63.0"
 uvicorn = {extras = ["standard"], version = "0.13.4"}
 gunicorn = "20.1.0"
 python-dotenv = "0.17.0"
-SQLAlchemy = "<1.4.0"
+SQLAlchemy = "<1.5.0"
 alembic = "1.5.8"
 email-validator = "1.1.2"
 passlib = "1.7.4"
