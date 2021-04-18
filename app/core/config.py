@@ -14,8 +14,12 @@ http://localhost:3000, http://localhost:8080, http://local.dockertoolbox.tiangol
 BACKEND_CORS_ORIGINS = os.getenv("BACKEND_CORS_ORIGINS")
 
 PROJECT_NAME = os.getenv("PROJECT_NAME")
-DATABASE_URL = os.getenv("DATABASE_URL")
 SECRET_KEY = os.getenv("SECRET_KEY")
+
+# Sqlalchemy 1.4.x support as it has removed support for `postgres://` scheme.
+DATABASE_URL = os.getenv("DATABASE_URL")
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
 # 60 minutes * 24 hours * 8 days = 8 days
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 8
