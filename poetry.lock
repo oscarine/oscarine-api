@@ -1,6 +1,6 @@
 [[package]]
 name = "aiosmtplib"
-version = "1.1.4"
+version = "1.1.5"
 description = "asyncio SMTP client"
 category = "main"
 optional = false
@@ -823,12 +823,12 @@ python-versions = ">=3.6.1"
 [metadata]
 lock-version = "1.1"
 python-versions = "3.8.5"
-content-hash = "59ceec1e3178e96fb1f40b57359dc21c91f4a3399c1f783bc9c998b388c69832"
+content-hash = "718ee4d1c791d244c08c4e68718655196eb48f7c99236430c79fb5870bf9d8c6"
 
 [metadata.files]
 aiosmtplib = [
-    {file = "aiosmtplib-1.1.4-py3-none-any.whl", hash = "sha256:93e53edac183f1a608bc34464efeef23902e59e949017b1682014f59ecdcd37d"},
-    {file = "aiosmtplib-1.1.4.tar.gz", hash = "sha256:8270d0a06475aa05b9276fc954fbd08a1f6c59d0452b4899413d8bca1db24541"},
+    {file = "aiosmtplib-1.1.5-py3-none-any.whl", hash = "sha256:95588f48f4ccc79a7a790a89e06d3b1df38a4ba8b345be494db3f623d3d7e2ee"},
+    {file = "aiosmtplib-1.1.5.tar.gz", hash = "sha256:6e03a96fa4692c8550cca4957834bb3e49651aba3ce34f161c03c8c0922beef6"},
 ]
 alembic = [
     {file = "alembic-1.5.8-py2.py3-none-any.whl", hash = "sha256:8a259f0a4c8b350b03579d77ce9e810b19c65bf0af05f84efb69af13ad50801e"},
