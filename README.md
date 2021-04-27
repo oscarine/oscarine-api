@@ -9,9 +9,17 @@
 * `cd oscarine-api`
 * `python3 -m venv venv`
 * `source venv/bin/activate`
-* `pip install -r requirements/dev.txt`
+* `poetry install`                                  * 
 * `cp .env.example .env`
 * `uvicorn app.main:app --reload`
+
+##Setup Poetry for Linux/OSX/Bashwindows
+* `curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -`
+
+##Setup Poetry for Linux/OSX/Bashwindows
+* `(Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python -`
+
+
 
 ## Setup Postgresql
 *Run the following commands to setup your database*
