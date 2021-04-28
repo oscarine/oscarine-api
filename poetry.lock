@@ -431,7 +431,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "pycln"
-version = "0.0.1"
+version = "0.0.2"
 description = "A formatter for finding and removing unused import statements."
 category = "dev"
 optional = false
@@ -814,7 +814,7 @@ python-versions = ">=3.6.1"
 [metadata]
 lock-version = "1.1"
 python-versions = "3.8.5"
-content-hash = "906ffaf57b3667cab1d818ce25c97fb9cb3e9f0de4163d9c2a7becc50316afb1"
+content-hash = "b4d277c454df61a50cf900050c60e3ed88dc46bee19c0583dc1243797d182357"
 
 [metadata.files]
 aiosmtplib = [
@@ -1127,8 +1127,8 @@ py = [
     {file = "py-1.10.0.tar.gz", hash = "sha256:21b81bda15b66ef5e1a777a21c4dcd9c20ad3efd0b3f817e7a809035269e1bd3"},
 ]
 pycln = [
-    {file = "pycln-0.0.1-py3-none-any.whl", hash = "sha256:9e127c0e33ec480074083600137158c64dc6b6f1e62ac7fbb540d0cd89723872"},
-    {file = "pycln-0.0.1.tar.gz", hash = "sha256:f5c6e1fcd5f336ec4b204e1ffcfce55982a5dd8b0eca14d5aac362fe1e7001b5"},
+    {file = "pycln-0.0.2-py3-none-any.whl", hash = "sha256:42efb801cdd6315c28b16a0e7af0a924e3d3977040721b28ea5c81dbeb9e8fc1"},
+    {file = "pycln-0.0.2.tar.gz", hash = "sha256:66d15cf633e6ef5e06aa2e8356a554845049dacc829c56d059c7b74ab74c866a"},
 ]
 pycparser = [
     {file = "pycparser-2.20-py2.py3-none-any.whl", hash = "sha256:7582ad22678f0fcd81102833f60ef8d0e57288b6b5fb00323d101be910e35705"},
