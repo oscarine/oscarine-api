@@ -63,7 +63,7 @@ GeoAlchemy2 = "0.8.5"
 SQLAlchemy-Utils = "0.37.0"
 
 [tool.poetry.dev-dependencies]
-black = "21.4b0"
+black = "21.4b2"
 isort = "5.8.0"
 pre-commit = "2.12.1"
 pycln = "0.0.2"
