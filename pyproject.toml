@@ -47,7 +47,7 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "3.8.5"
-fastapi = "0.63.0"
+fastapi = "0.64.0"
 uvicorn = {extras = ["standard"], version = "0.13.4"}
 gunicorn = "20.1.0"
 python-dotenv = "0.17.1"
