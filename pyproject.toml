@@ -67,7 +67,7 @@ black = "21.5b0"
 isort = "5.8.0"
 pre-commit = "2.12.1"
 pycln = "0.0.2"
-pyupgrade = "2.14.0"
+pyupgrade = "2.15.0"
 # For testing
 pytest = "6.2.4"
 tenacity = "7.0.0"
