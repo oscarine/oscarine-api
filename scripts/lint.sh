@@ -3,4 +3,4 @@
 # Print commands and their arguments as they are executed.
 set -x
 
-black app --check
+vulture app --min-confidence 80
