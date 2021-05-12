@@ -2,12 +2,12 @@ from datetime import datetime
 
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, Numeric, String, func
 from sqlalchemy.orm import relation
+from sqlalchemy_utils import aggregated
+from sqlalchemy_utils.types.choice import ChoiceType
 
 from app.choices.order_status import ORDER_STATUS_TYPES
 from app.db.base_class import Base
 from app.db_models.ordered_item import OrderedItem
-from sqlalchemy_utils import aggregated
-from sqlalchemy_utils.types.choice import ChoiceType
 
 
 class Order(Base):

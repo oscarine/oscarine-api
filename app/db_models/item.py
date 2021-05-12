@@ -1,9 +1,9 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, Numeric, String
 from sqlalchemy.orm import relation
+from sqlalchemy_utils.types.choice import ChoiceType
 
 from app.choices.cost_unit import COST_UNIT_TYPES
 from app.db.base_class import Base
-from sqlalchemy_utils.types.choice import ChoiceType
 
 
 class Item(Base):

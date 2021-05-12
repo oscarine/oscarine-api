@@ -1,8 +1,8 @@
+from geoalchemy2.types import Geography
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, Numeric, String
 from sqlalchemy.orm import relation
 
 from app.db.base_class import Base
-from geoalchemy2.types import Geography
 
 
 class Address(Base):
