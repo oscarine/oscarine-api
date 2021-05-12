@@ -4,7 +4,6 @@ from typing import Dict, Generator, NoReturn, Optional
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
-
 from starlette.status import HTTP_409_CONFLICT
 
 DEFAULT_ERROR_MESSAGE = "An error occurred"
