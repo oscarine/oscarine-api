@@ -542,7 +542,7 @@ python-versions = "*"
 
 [[package]]
 name = "pyupgrade"
-version = "2.16.0"
+version = "2.17.0"
 description = "A tool to automatically upgrade syntax for newer versions."
 category = "dev"
 optional = false
@@ -825,7 +825,7 @@ python-versions = ">=3.6.1"
 [metadata]
 lock-version = "1.1"
 python-versions = "3.8.5"
-content-hash = "476d3c39005c11e139c0f2907694d7353b12f69e9f1d9e649fad08f546e9cac4"
+content-hash = "912f29868781eba635bd5be1ce7faecc39db52056804687cdc053bbef38e3b7b"
 
 [metadata.files]
 aiosmtplib = [
@@ -1197,8 +1197,8 @@ python-editor = [
     {file = "python_editor-1.0.4-py3.5.egg", hash = "sha256:c3da2053dbab6b29c94e43c486ff67206eafbe7eb52dbec7390b5e2fb05aac77"},
 ]
 pyupgrade = [
-    {file = "pyupgrade-2.16.0-py2.py3-none-any.whl", hash = "sha256:6cddea21761bc5d4373f486dd55499e09ccd9dcf08f5e6eafefd92c4a286c67d"},
-    {file = "pyupgrade-2.16.0.tar.gz", hash = "sha256:aa85290fe841a7bce1057f68e06df88d20139729f042ad249eaffd7cbd15c515"},
+    {file = "pyupgrade-2.17.0-py2.py3-none-any.whl", hash = "sha256:053525db73a173925f5ee3d36295cf7e51322213df01ae5310ce64fe7dc0e998"},
+    {file = "pyupgrade-2.17.0.tar.gz", hash = "sha256:dd0b1304e48ca2d7a244c9b86f70d989b6f694d0d09f0214fe3a627fba403776"},
 ]
 pyyaml = [
     {file = "PyYAML-5.4.1-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:3b2b1824fe7112845700f815ff6a489360226a5609b96ec2190a45e62a9fc922"},
