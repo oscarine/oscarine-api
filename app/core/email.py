@@ -7,7 +7,7 @@ from app.core import config
 
 
 async def send_email_verify_otp(email: EmailStr, otp: int):
-    if not config.TESTING:
+    if not config.TESTING and config.MAIL_ENABLED:
         message = EmailMessage()
         message["From"] = config.MAIL_SENDER
         message["To"] = email

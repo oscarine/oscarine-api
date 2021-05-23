@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.api.utils.db import get_db
@@ -27,7 +27,11 @@ def owner_login_access_token(data: Login, db: Session = Depends(get_db)):
     """
     owner = owner_authenticate(db, email=data.email, password=data.password)
     if not owner:
-        raise HTTPException(status_code=400, detail="Incorrect email or password")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     access_token_expires = timedelta(minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
     return {
         "access_token": create_access_token(
@@ -43,7 +47,11 @@ def user_login_access_token(data: Login, db: Session = Depends(get_db)):
     """
     user = user_authenticate(db, email=data.email, password=data.password)
     if not user:
-        raise HTTPException(status_code=400, detail="Incorrect email or password")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     access_token_expires = timedelta(minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
     return {
         "access_token": create_access_token(

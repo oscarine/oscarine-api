@@ -1,9 +1,7 @@
-import jwt
-from fastapi import Depends, HTTPException, Security
+from fastapi import Depends, HTTPException, Security, status
 from fastapi.security import OAuth2PasswordBearer
-from jwt import PyJWTError
+from jose import JWTError, jwt
 from sqlalchemy.orm import Session
-from starlette.status import HTTP_403_FORBIDDEN
 
 from app.api.utils.db import get_db
 from app.core import config
@@ -17,16 +15,20 @@ reusable_oauth2 = OAuth2PasswordBearer(tokenUrl="/api/v1/owner_login")
 def get_current_owner(
     token: str = Security(reusable_oauth2), db: Session = Depends(get_db)
 ):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
     try:
         payload = jwt.decode(token, config.SECRET_KEY, algorithms=[ALGORITHM])
-        token_data = OwnerTokenPayload(**payload)
-    except PyJWTError:
-        raise HTTPException(
-            status_code=HTTP_403_FORBIDDEN, detail="Could not validate credentials"
-        )
+        owner_id: int = payload.get("owner_id")
+        if owner_id is None:
+            raise credentials_exception
+        token_data = OwnerTokenPayload(owner_id=owner_id)
+    except JWTError:
+        raise credentials_exception
     owner = get_by_id(db, owner_id=token_data.owner_id)
-    if not owner:
-        raise HTTPException(
-            status_code=404, detail="Owner not found".format(token, payload, token_data)
-        )
+    if owner is None:
+        raise credentials_exception
     return owner

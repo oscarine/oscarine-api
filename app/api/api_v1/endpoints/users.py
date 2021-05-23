@@ -1,13 +1,12 @@
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends
 from sqlalchemy.orm import Session
 
 from app.api.utils.db import get_db
 from app.api.utils.error import expected_integrity_error
 from app.api.utils.otp import generate_random_otp
 from app.api.utils.security import get_current_user
-from app.core import config
 from app.core.email import send_email_verify_otp
-from app.crud.user import create_user, get_by_id, update_user_info
+from app.crud.user import create_user, update_user_info
 from app.db_models.user import User as DBUser
 from app.models.user import UserCreate, UserResponse, UserUpdate
 
@@ -31,12 +30,9 @@ async def register_user(
 @router.get("/users", response_model=UserResponse)
 async def get_user_details(
     *,
-    db: Session = Depends(get_db),
     current_user: DBUser = Depends(get_current_user),
 ):
-    if user := get_by_id(db, user_id=current_user.id):
-        return user
-    raise HTTPException(status_code=404, detail="Can't find details of this user.")
+    return current_user
 
 
 @router.patch("/users", response_model=UserResponse)
