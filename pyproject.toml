@@ -57,16 +57,16 @@ email-validator = "1.1.2"
 psycopg2 = "2.8.6"
 aiosmtplib = "1.1.6"
 GeoAlchemy2 = "0.8.5"
-SQLAlchemy-Utils = "0.37.2"
 python-jose = {extras = ["cryptography"], version = "^3.2.0"}
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+SQLAlchemy-Utils = "0.37.3"
 
 [tool.poetry.dev-dependencies]
 black = "21.5b1"
 isort = "5.8.0"
 pre-commit = "2.12.1"
 pycln = "0.0.2"
-pyupgrade = "2.15.0"
+pyupgrade = "2.18.1"
 vulture = "^2.3"
 # For testing
 pytest = "6.2.4"
