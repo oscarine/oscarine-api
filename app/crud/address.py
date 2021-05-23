@@ -34,13 +34,11 @@ def get_user_addresses(
 
 
 def get_address_by_id(
-    db_session: Session, *, id: int, user_id: int, include_archived: bool = False
+    db_session: Session, *, id: int, user_id: int = None, include_archived: bool = False
 ) -> Address:
-    query = (
-        db_session.query(Address)
-        .filter(Address.user_id == user_id)
-        .filter(Address.id == id)
-    )
+    query = db_session.query(Address).filter(Address.id == id)
+    if user_id:
+        query.filter(Address.user_id == user_id)
     if not include_archived:
         query = query.filter(Address.archived == False)
     if address := query.first():
