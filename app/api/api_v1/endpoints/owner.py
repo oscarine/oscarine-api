@@ -1,18 +1,14 @@
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
-from fastapi.encoders import jsonable_encoder
+from fastapi import APIRouter, BackgroundTasks, Depends
 from sqlalchemy.orm import Session
 
 from app.api.utils.db import get_db
 from app.api.utils.error import expected_integrity_error
 from app.api.utils.otp import generate_random_otp
 from app.api.utils.owner_security import get_current_owner
-from app.core import config
 from app.core.email import send_email_verify_otp
-from app.core.jwt import create_access_token
-from app.crud.owner import create_owner, get_by_id, update_owner_info
+from app.crud.owner import create_owner, update_owner_info
 from app.db_models.owner import Owner as DBOwnerModel
 from app.models.owner import OwnerCreate, OwnerDetails, OwnerUpdate
-from app.models.token import Token
 
 router = APIRouter()
 
@@ -37,9 +33,7 @@ async def get_owner_details(
     db: Session = Depends(get_db),
     current_owner: DBOwnerModel = Depends(get_current_owner),
 ):
-    if owner := get_by_id(db, owner_id=current_owner.id):
-        return OwnerDetails(**jsonable_encoder(owner))
-    raise HTTPException(status_code=404, detail="Can't find details of this owner.")
+    return current_owner
 
 
 @router.patch("/owners", response_model=OwnerDetails)

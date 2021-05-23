@@ -1,12 +1,10 @@
 from datetime import datetime
 from typing import Optional
 
-from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
-from pydantic import EmailStr
 from sqlalchemy.orm import Session
 
-from app.core.security import get_password_hash, verify_password
+from app.core.security import get_password_hash
 from app.db_models.user import User
 from app.models.user import UserCreate, UserUpdate
 

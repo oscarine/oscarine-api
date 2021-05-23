@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import AnyUrl, BaseModel, EmailStr, StrictBool
+from pydantic import AnyUrl, BaseModel, EmailStr
 
 
 class OwnerCreate(BaseModel):

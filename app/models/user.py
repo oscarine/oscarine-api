@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import AnyUrl, BaseModel, EmailStr, StrictBool
+from pydantic import AnyUrl, BaseModel, EmailStr
 
 
 # Properties to be received during registration
