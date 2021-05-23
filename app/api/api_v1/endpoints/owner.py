@@ -30,7 +30,6 @@ async def register_owner(
 @router.get("/owners", response_model=OwnerDetails)
 async def get_owner_details(
     *,
-    db: Session = Depends(get_db),
     current_owner: DBOwnerModel = Depends(get_current_owner),
 ):
     return current_owner
