@@ -52,7 +52,7 @@ uvicorn = {extras = ["standard"], version = "0.13.4"}
 gunicorn = "20.1.0"
 python-dotenv = "0.17.1"
 SQLAlchemy = "1.4.15"
-alembic = "1.6.2"
+alembic = "1.6.4"
 email-validator = "1.1.2"
 psycopg2 = "2.8.6"
 aiosmtplib = "1.1.6"

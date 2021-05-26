@@ -12,7 +12,7 @@ docs = ["sphinx (>=2,<4)", "sphinx_autodoc_typehints (>=1.7.0,<2.0.0)"]
 
 [[package]]
 name = "alembic"
-version = "1.6.2"
+version = "1.6.4"
 description = "A database migration tool for SQLAlchemy."
 category = "main"
 optional = false
@@ -883,7 +883,7 @@ python-versions = ">=3.6.1"
 [metadata]
 lock-version = "1.1"
 python-versions = "3.8.5"
-content-hash = "7faa16cfa78a210d94173ee4371df242d0ca40c93dc7a8c5a20b2a3eb9b96973"
+content-hash = "4975f1f377419006fafbc41fd8e3611fb6c435718dd3ac7214a7a6bdcbea5924"
 
 [metadata.files]
 aiosmtplib = [
@@ -891,7 +891,8 @@ aiosmtplib = [
     {file = "aiosmtplib-1.1.6.tar.gz", hash = "sha256:d138fe6ffecbc9e6320269690b9ac0b75e540ef96e8f5c77d4a306760014dce2"},
 ]
 alembic = [
-    {file = "alembic-1.6.2.tar.gz", hash = "sha256:fb9a39a7c68e55490be962fb5f70463d384d340e6563d6e3911447778e3b4576"},
+    {file = "alembic-1.6.4-py2.py3-none-any.whl", hash = "sha256:dd0fd7109f82cd1d7ea64b26f287534a1ad1bc5deab79807926d5f3f5b3b517c"},
+    {file = "alembic-1.6.4.tar.gz", hash = "sha256:becb572c6701c90ca249f97fc1ae231468cc9516df367a350901eeb9310a8d43"},
 ]
 appdirs = [
     {file = "appdirs-1.4.4-py2.py3-none-any.whl", hash = "sha256:a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128"},
