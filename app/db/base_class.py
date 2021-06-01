@@ -1,7 +1,7 @@
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 
 
-class CustomBase(object):
+class CustomBase:
     # Generate __tablename__ automatically
     @declared_attr
     def __tablename__(cls):
