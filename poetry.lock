@@ -684,7 +684,7 @@ sqlcipher = ["sqlcipher3-binary"]
 
 [[package]]
 name = "sqlalchemy-utils"
-version = "0.37.4"
+version = "0.37.5"
 description = "Various utility functions for SQLAlchemy."
 category = "main"
 optional = false
@@ -883,7 +883,7 @@ python-versions = ">=3.6.1"
 [metadata]
 lock-version = "1.1"
 python-versions = "3.8.5"
-content-hash = "b9d3249fec3451bde0ffdd3b52ff91abd9ea382535a05b8b0644c97e9aa9ed5c"
+content-hash = "e83c0e149212799ddb3ace223ad649068d31446d7750f259fbff75384eb2d74f"
 
 [metadata.files]
 aiosmtplib = [
@@ -1414,8 +1414,8 @@ sqlalchemy = [
     {file = "SQLAlchemy-1.4.17.tar.gz", hash = "sha256:651cdb3adcee13624ba22d5ff3e96f91e16a115d2ca489ddc16a8e4c217e8509"},
 ]
 sqlalchemy-utils = [
-    {file = "SQLAlchemy-Utils-0.37.4.tar.gz", hash = "sha256:2351c0a0f9158b215a56bef19c6670e10c666c593cee3f0d337259227e5ee8be"},
-    {file = "SQLAlchemy_Utils-0.37.4-py3-none-any.whl", hash = "sha256:f5311d4ded66ec661b436e796ea6656dd8b7d764bf21919385d198ac75c6902d"},
+    {file = "SQLAlchemy-Utils-0.37.5.tar.gz", hash = "sha256:62a504b61d17837cb7846f4fb7c9319754685e232d2b8b4cdd4cf792dd48e78f"},
+    {file = "SQLAlchemy_Utils-0.37.5-py3-none-any.whl", hash = "sha256:5b774ab2d2196ca46e1c75a8c4fd5b0093c47dcfff3f6d7bbb821d3ccacfeb4f"},
 ]
 starlette = [
     {file = "starlette-0.14.2-py3-none-any.whl", hash = "sha256:3c8e48e52736b3161e34c9f0e8153b4f32ec5d8995a3ee1d59410d92f75162ed"},
