@@ -9,7 +9,8 @@ export SECRET_KEY=my-secret-key-for-testing
 
 python app/tests_pre_start.py
 
-bash ./test.sh "$@"
+# Start tests using Pytest
+pytest
 
 echo "I am done testing!"
 unset TESTING
