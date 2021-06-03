@@ -22,20 +22,16 @@ jobs:
             - v1.1-dependencies-
 
       - run:
-          name: Install Python Dependencies and Run Migrations
+          name: Install Dependencies, Run Migrations and Tests
           command: |
             python3 -m venv venv
             source venv/bin/activate
             poetry install
-            alembic upgrade head
+            sh scripts/tests_ci.sh
 
       - run:
           name: Lint Check
           command: . venv/bin/activate && sh scripts/lint.sh
-
-      - run:
-          name: Start Running Tests
-          command: . venv/bin/activate && sh scripts/tests_ci.sh
 
       - save_cache:
           paths:
