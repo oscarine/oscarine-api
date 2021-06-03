@@ -9,8 +9,6 @@ export SECRET_KEY=my-secret-key-for-testing
 
 python app/tests_pre_start.py
 
-alembic upgrade head
-
 bash ./scripts/test.sh "$@"
 
 echo "I am done testing!"

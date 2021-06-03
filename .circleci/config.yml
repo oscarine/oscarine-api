@@ -6,6 +6,7 @@ jobs:
       - image: circleci/python:3.8.5
         environment:
           TEST_DATABASE_URL: postgresql://postgres@localhost/oscarine_db_test?sslmode=disable
+          TESTING: True
       - image: circleci/postgres:12.2-postgis-ram
         environment:
           POSTGRES_USER: postgres
@@ -22,16 +23,20 @@ jobs:
             - v1.1-dependencies-
 
       - run:
-          name: Install Dependencies, Run Migrations and Tests
+          name: Install Python Dependencies and Run Migrations
           command: |
             python3 -m venv venv
             source venv/bin/activate
             poetry install
-            sh scripts/tests_ci.sh
+            alembic upgrade head
 
       - run:
           name: Lint Check
           command: . venv/bin/activate && sh scripts/lint.sh
+
+      - run:
+          name: Start Running Tests
+          command: . venv/bin/activate && sh scripts/tests_ci.sh
 
       - save_cache:
           paths:
