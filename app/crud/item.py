@@ -4,8 +4,20 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
 from app.db_models.item import Item
+from app.db_models.shop import Shop
 from app.models.item import Item as PydanticItem
 from app.models.item import UpdateItem
+
+
+def get_available_item(db_session: Session, *, item_id: int):
+    return (
+        db_session.query(Item, Shop)
+        .filter(
+            Item.id == item_id, Item.item_available == True, Shop.is_available == True
+        )
+        .join(Shop)
+        .first()
+    )
 
 
 def item_by_name_and_shop(db_session: Session, *, shop_id: int, name: str) -> Item:

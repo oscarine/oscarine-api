@@ -16,8 +16,14 @@ BACKEND_CORS_ORIGINS = os.getenv("BACKEND_CORS_ORIGINS")
 PROJECT_NAME = os.getenv("PROJECT_NAME")
 SECRET_KEY = os.getenv("SECRET_KEY")
 
+TESTING = os.getenv("TESTING", "False").lower() in ["true", "1"]
+
+if TESTING:
+    DATABASE_URL = os.getenv("TEST_DATABASE_URL")
+else:
+    DATABASE_URL = os.getenv("DATABASE_URL")
+
 # Sqlalchemy 1.4.x support as it has removed support for `postgres://` scheme.
-DATABASE_URL = os.getenv("DATABASE_URL")
 if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
@@ -25,8 +31,6 @@ if DATABASE_URL.startswith("postgres://"):
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 8
 
 OTP_EXPIRY_MINUTES = 5
-
-TESTING = os.getenv("TESTING", "False").lower() in ["true", "1"]
 
 # Configs for sending emails
 if os.getenv("MAIL_ENABLED") == "True":
