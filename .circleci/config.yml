@@ -36,7 +36,7 @@ jobs:
 
       - run:
           name: Start Running Tests
-          command: . venv/bin/activate && sh scripts/tests_ci.sh
+          command: . venv/bin/activate && sh scripts/test_ci.sh
 
       - save_cache:
           paths:
