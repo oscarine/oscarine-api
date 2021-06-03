@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 set -e
 
@@ -9,7 +9,7 @@ export SECRET_KEY=my-secret-key-for-testing
 
 python app/tests_pre_start.py
 
-bash ./scripts/test.sh "$@"
+bash ./test.sh "$@"
 
 echo "I am done testing!"
 unset TESTING
