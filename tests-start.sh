@@ -13,7 +13,7 @@ sudo docker run -d -e POSTGRES_USER=test -e POSTGRES_HOST_AUTH_METHOD=trust \
 
 export TEST_DATABASE_URL="postgresql://test@localhost:5433/test"
 
-# Sleep for 10 secs as database setup takes some time
+# Sleep for 6 secs as database setup takes some time
 echo "Waiting for database..."
 sleep 6
 
