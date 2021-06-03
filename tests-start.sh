@@ -20,9 +20,6 @@ sleep 6
 echo "Checking db"
 python app/tests_pre_start.py
 
-echo "Creating btree_gist postgres extension"
-sudo docker exec -it oscarine-test-db psql -U test -c "CREATE EXTENSION btree_gist;"
-
 echo "Applying migrations..."
 alembic upgrade head
 
