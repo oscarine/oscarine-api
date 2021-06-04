@@ -7,7 +7,9 @@ from app.db_models.item import Item
 from app.models.cart import CartUpdateChoiceEnum, UpdateCartItem
 
 
-def add_cart_item(db_session: Session, user_id: int, shop_id: int, item_id: int) -> Cart:
+def add_cart_item(
+    db_session: Session, user_id: int, shop_id: int, item_id: int
+) -> Cart:
     cart_item = Cart(item_id=item_id, user_id=user_id, shop_id=shop_id)
     db_session.add(cart_item)
     db_session.commit()
@@ -29,7 +31,9 @@ def update_cart_item(db_session: Session, cart_item: Cart, data: UpdateCartItem)
     return cart_item
 
 
-def get_cart_items_detailed(db_session: Session, user_id: int) -> List[Tuple[Cart, Item]]:
+def get_cart_items_detailed(
+    db_session: Session, user_id: int
+) -> List[Tuple[Cart, Item]]:
     return db_session.query(Cart, Item).filter(Cart.user_id == user_id).join(Item).all()
 
 

@@ -15,7 +15,9 @@ class OwnerFactory(Base):
 
     def create(self, db: Session):
         owner = Owner(
-            email=self.email, password_hash=get_password_hash(self.password), otp=self.otp
+            email=self.email,
+            password_hash=get_password_hash(self.password),
+            otp=self.otp,
         )
         db.add(owner)
         db.commit()

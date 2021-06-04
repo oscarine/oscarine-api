@@ -125,7 +125,9 @@ async def view_cart(
     )
 
 
-@router.delete("/cart/{item_id}", response_model=DeleteCartItemResponse, status_code=200)
+@router.delete(
+    "/cart/{item_id}", response_model=DeleteCartItemResponse, status_code=200
+)
 async def delete_item_from_cart(
     *,
     item_id: PositiveInt,

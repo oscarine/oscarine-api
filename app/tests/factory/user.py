@@ -16,7 +16,9 @@ class UserFactory(Base):
 
     def create(self, db: Session) -> None:
         user = User(
-            email=self.email, password_hash=get_password_hash(self.password), otp=self.otp
+            email=self.email,
+            password_hash=get_password_hash(self.password),
+            otp=self.otp,
         )
         db.add(user)
         db.commit()

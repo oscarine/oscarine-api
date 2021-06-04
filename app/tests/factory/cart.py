@@ -15,7 +15,9 @@ class CartFactory(Base):
         self.item_quantity = None
 
     def create(self, db: Session):
-        cart_item = Cart(item_id=self.item_id, shop_id=self.shop_id, user_id=self.user_id)
+        cart_item = Cart(
+            item_id=self.item_id, shop_id=self.shop_id, user_id=self.user_id
+        )
         db.add(cart_item)
         db.commit()
         db.refresh(cart_item)

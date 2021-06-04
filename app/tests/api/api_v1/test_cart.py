@@ -71,7 +71,9 @@ def test_add_same_item_in_cart_error(client: TestClient, db_session: Session):
     )
 
 
-def test_add_item_in_cart_different_shops_error(client: TestClient, db_session: Session):
+def test_add_item_in_cart_different_shops_error(
+    client: TestClient, db_session: Session
+):
     owner = OwnerFactory()
     owner.create(db_session)
 

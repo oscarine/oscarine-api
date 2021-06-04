@@ -13,7 +13,9 @@ def test_get_shops_list_for_user(client: TestClient, db_session: Session):
         longitude=78.0705664, latitude=27.8983082, owner_id=owner.id, radius_metres=1000
     )
     shop.create(db_session)
-    r = client.get(f"{config.API_V1_STR}/shops-list?longitude=78.06374&latitude=27.90493")
+    r = client.get(
+        f"{config.API_V1_STR}/shops-list?longitude=78.06374&latitude=27.90493"
+    )
     response_json = r.json()
     assert r.status_code == 200
     assert len(response_json) == 1
