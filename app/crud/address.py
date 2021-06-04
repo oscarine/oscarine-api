@@ -9,7 +9,9 @@ from app.db_models.address import Address
 from app.models.address import EditAddress, UserAddress
 
 
-def add_user_address(db_session: Session, *, user_id: int, data: UserAddress) -> Address:
+def add_user_address(
+    db_session: Session, *, user_id: int, data: UserAddress
+) -> Address:
     address = Address(user_id=user_id)
     data = jsonable_encoder(data, exclude_none=True)
     for field in data:
