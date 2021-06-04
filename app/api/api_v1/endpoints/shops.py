@@ -8,7 +8,12 @@ from app.api.utils.db import get_db
 from app.api.utils.owner_security import get_current_owner
 from app.api.utils.pagination import pagination
 from app.crud.address import get_address_by_id
-from app.crud.shop import get_shop_by_id, register_new_shop, shops_for_users, update_shop
+from app.crud.shop import (
+    get_shop_by_id,
+    register_new_shop,
+    shops_for_users,
+    update_shop,
+)
 from app.db_models.owner import Owner as DBOwnerModel
 from app.models.shop import ShopDetails, ShopDetailsForUsers, ShopRegister, ShopUpdate
 

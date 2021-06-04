@@ -76,7 +76,9 @@ async def get_items_for_owner(
     if shop:
         if items := shop.items:
             return convert_cost_units(items)
-        raise HTTPException(status_code=404, detail="This shop does not have any items.")
+        raise HTTPException(
+            status_code=404, detail="This shop does not have any items."
+        )
     raise HTTPException(
         status_code=403, detail="This owner is not allowed to view items of this shop."
     )
