@@ -8,9 +8,11 @@ from app.tests.factory.base import Base
 
 class CartFactory(Base):
     def __init__(self, item_id: int, shop_id: int, user_id: int) -> None:
+        self.id = None
         self.item_id = item_id
         self.shop_id = shop_id
         self.user_id = user_id
+        self.item_quantity = None
 
     def create(self, db: Session):
         cart_item = Cart(item_id=self.item_id, shop_id=self.shop_id, user_id=self.user_id)

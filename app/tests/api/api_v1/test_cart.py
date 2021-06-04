@@ -129,7 +129,7 @@ def test_add_unavailable_item_in_cart_error(client: TestClient, db_session: Sess
     headers = {'Authorization': f'Bearer {token}'}
     r = client.post(f"{config.API_V1_STR}/cart", json=post_data, headers=headers)
     response_json = r.json()
-    assert item.item_available == False
+    assert item.item_available is False
     assert r.status_code == 400
     assert (
         response_json['detail'] == 'NOT_AVAILABLE: Shop or item not available currently'
@@ -161,7 +161,7 @@ def test_add_item_in_cart_from_unavailable_shop_error(
     headers = {'Authorization': f'Bearer {token}'}
     r = client.post(f"{config.API_V1_STR}/cart", json=post_data, headers=headers)
     response_json = r.json()
-    assert shop.is_available == False
+    assert shop.is_available is False
     assert r.status_code == 400
     assert (
         response_json['detail'] == 'NOT_AVAILABLE: Shop or item not available currently'
@@ -329,13 +329,13 @@ def test_view_cart(client: TestClient, db_session: Session):
     assert response_json['items'][0]['name'] == item1.name
     assert response_json['items'][0]['cost'] == item1.cost
     assert response_json['items'][0]['item_quantity'] == 4
-    assert response_json['items'][0]['item_available'] == True
+    assert response_json['items'][0]['item_available'] is True
 
     assert response_json['items'][1]['id'] == item2.id
     assert response_json['items'][1]['name'] == item2.name
     assert response_json['items'][1]['cost'] == item2.cost
     assert response_json['items'][1]['item_quantity'] == 3
-    assert response_json['items'][1]['item_available'] == True
+    assert response_json['items'][1]['item_available'] is True
 
 
 def test_view_cart_when_no_items_added_error(client: TestClient, db_session: Session):
@@ -360,7 +360,7 @@ def test_view_cart_when_user_unauthenticated_error(client: TestClient):
 
 
 def test_view_cart_when_invalid_user_token_error(client: TestClient):
-    headers = {'Authorization': f'Bearer invalid.auth.token'}
+    headers = {'Authorization': 'Bearer invalid.auth.token'}
     r = client.get(f"{config.API_V1_STR}/cart", headers=headers)
     response_json = r.json()
 

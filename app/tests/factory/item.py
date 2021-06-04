@@ -10,11 +10,13 @@ from app.tests.factory.base import Base
 
 class ItemFactory(Base):
     def __init__(self, shop_id: int, owner_id: int) -> None:
+        self.id = None
         self.name = self.random_lower_string()
         self.cost = self.random_integer()
         self.cost_unit = COST_UNIT_TYPES[randint(0, len(COST_UNIT_TYPES) - 1)][0]
         self.shop_id = shop_id
         self.owner_id = owner_id
+        self.item_available = None
 
     def create(self, db: Session):
         item = Item(

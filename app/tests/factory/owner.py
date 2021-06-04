@@ -8,6 +8,7 @@ from app.tests.factory.base import Base
 
 class OwnerFactory(Base):
     def __init__(self) -> None:
+        self.id = None
         self.email = self.random_email()
         self.password = self.random_lower_string()
         self.otp = generate_random_otp()

@@ -10,6 +10,7 @@ class ShopFactory(Base):
     def __init__(
         self, longitude: float, latitude: float, owner_id: int, radius_metres: int
     ) -> None:
+        self.id = None
         self.longitude = longitude
         self.latitude = latitude
         self.name = self.random_lower_string()
