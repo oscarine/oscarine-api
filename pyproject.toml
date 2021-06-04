@@ -1,5 +1,5 @@
 [tool.black]
-line-length = 90
+line-length = 88
 target-version = ['py38']
 skip-string-normalization = true
 exclude = '''
@@ -24,7 +24,7 @@ exclude = '''
 '''
 
 [tool.isort]
-line_length = 90
+line_length = 88
 skip = 'alembic/,venv/,.venv/'
 known_first_party = 'app'
 known_third_party = 'fastapi, pydantic, sqlalchemy'
