@@ -64,7 +64,9 @@ def user_login_access_token(data: Login, db: Session = Depends(get_db)):
 async def verify_owner_email_otp(*, data: VerifyEmail, db: Session = Depends(get_db)):
     owner = get_owner_by_email(db, email=data.email)
     if owner and (owner.otp == data.otp):
-        expiry_time = owner.otp_created_at + timedelta(minutes=config.OTP_EXPIRY_MINUTES)
+        expiry_time = owner.otp_created_at + timedelta(
+            minutes=config.OTP_EXPIRY_MINUTES
+        )
         if expiry_time >= datetime.utcnow():
             owner = owner_email_verified(db, owner=owner)
             if owner.email_verified:

@@ -6,7 +6,9 @@ from app.db_models.shop import Shop
 from app.models.shop import ShopRegister, ShopUpdate
 
 
-def register_new_shop(db_session: Session, *, owner_id: int, data: ShopRegister) -> Shop:
+def register_new_shop(
+    db_session: Session, *, owner_id: int, data: ShopRegister
+) -> Shop:
     shop = Shop()
     data = jsonable_encoder(data, exclude_none=True)
     for field in data:

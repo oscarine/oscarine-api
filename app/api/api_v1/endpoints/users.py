@@ -15,7 +15,10 @@ router = APIRouter()
 
 @router.post("/users", response_model=UserResponse, status_code=201)
 async def register_user(
-    *, db: Session = Depends(get_db), data: UserCreate, background_tasks: BackgroundTasks
+    *,
+    db: Session = Depends(get_db),
+    data: UserCreate,
+    background_tasks: BackgroundTasks,
 ):
     """registering new users."""
     otp = generate_random_otp()

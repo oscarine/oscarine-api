@@ -15,7 +15,10 @@ router = APIRouter()
 
 @router.post("/owners", response_model=OwnerDetails, status_code=201)
 async def register_owner(
-    *, db: Session = Depends(get_db), data: OwnerCreate, background_tasks: BackgroundTasks
+    *,
+    db: Session = Depends(get_db),
+    data: OwnerCreate,
+    background_tasks: BackgroundTasks,
 ):
     """registering new owners."""
     otp = generate_random_otp()
