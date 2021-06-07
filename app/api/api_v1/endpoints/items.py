@@ -7,7 +7,6 @@ from sqlalchemy.orm import Session
 from app.api.utils.db import get_db
 from app.api.utils.owner_security import get_current_owner
 from app.api.utils.parsing import convert_cost_units
-from app.api.utils.security import get_current_user
 from app.crud.item import (
     add_item,
     item_by_id_and_owner,
@@ -17,7 +16,6 @@ from app.crud.item import (
 )
 from app.crud.shop import get_shop_by_id
 from app.db_models.owner import Owner
-from app.db_models.user import User
 from app.models.item import Item, ItemResponseForOwner, ItemResponseForUser, UpdateItem
 
 router = APIRouter()
@@ -89,7 +87,6 @@ async def get_items_for_user(
     *,
     shop_id: PositiveInt,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
 ):
     if items := items_by_shop_id(db, shop_id=shop_id):
         return convert_cost_units(items)

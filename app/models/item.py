@@ -45,7 +45,7 @@ class ItemResponseForUser(BaseModel):
     name: str
     cost: float
     cost_unit: str
-    category: str
+    category: Optional[str] = None
     item_available: bool
 
     class Config:
