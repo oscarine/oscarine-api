@@ -5,7 +5,6 @@ from app.core import config
 from app.tests.factory.item import ItemFactory
 from app.tests.factory.owner import OwnerFactory
 from app.tests.factory.shop import ShopFactory
-from app.tests.factory.user import UserFactory
 
 
 def test_get_items_for_user(client: TestClient, db_session: Session):
@@ -21,9 +20,6 @@ def test_get_items_for_user(client: TestClient, db_session: Session):
 
     item2 = ItemFactory(shop_id=shop.id, owner_id=owner.id)
     item2.create(db_session)
-
-    user = UserFactory()
-    user.create(db_session)
 
     r = client.get(f"{config.API_V1_STR}/items-list/{shop.id}")
     response_json = r.json()
