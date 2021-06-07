@@ -30,9 +30,9 @@ def test_get_items_for_user(client: TestClient, db_session: Session):
     assert response_json[0]["id"] == item1.id
     assert response_json[0]["name"] == item1.name
     assert response_json[0]["cost"] == item1.cost
-    assert response_json[0]["item_available"] == True
+    assert response_json[0]["item_available"] is True
 
     assert response_json[1]["id"] == item2.id
     assert response_json[1]["name"] == item2.name
     assert response_json[1]["cost"] == item2.cost
-    assert response_json[1]["item_available"] == True
+    assert response_json[1]["item_available"] is True
