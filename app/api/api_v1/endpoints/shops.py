@@ -11,11 +11,19 @@ from app.crud.address import get_address_by_id
 from app.crud.shop import (
     get_shop_by_id,
     register_new_shop,
+    shop_details_for_user,
     shops_for_users,
     update_shop,
 )
 from app.db_models.owner import Owner as DBOwnerModel
-from app.models.shop import ShopDetails, ShopDetailsForUsers, ShopRegister, ShopUpdate
+from app.db_models.shop import Shop
+from app.models.shop import (
+    ShopDetails,
+    ShopDetailsForUsers,
+    ShopRegister,
+    ShopUpdate,
+    ShopViewForUser,
+)
 
 router = APIRouter()
 
@@ -105,3 +113,57 @@ async def owner_update_shop(
         if shop := update_shop(db, shop=shop, data=data):
             return shop
     raise HTTPException(status_code=403, detail="This owner cannot update this shop.")
+
+
+@router.get("/shop-details", response_model=ShopViewForUser, status_code=200)
+async def get_shop_details_for_users(
+    *,
+    shop_id: PositiveInt,
+    longitude: Optional[confloat(gt=-180, lt=180)] = None,
+    latitude: Optional[confloat(gt=-90, lt=90)] = None,
+    address_id: Optional[PositiveInt] = None,
+    db: Session = Depends(get_db),
+):
+    """This endpoint can work with `longitude` and `latitude` pair or
+    with `address_id` also. If neither of the two is provided `deliverable`
+    will be `null` in the response. Which simply means that, you need to pass
+    location if you want to check for shop's deliverable status.
+    """
+    shop: Shop = None
+    deliverable: bool = None
+    if (longitude and not latitude) or (latitude and not longitude):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="INVALID_LOCATION: Both longitude and latitude required or neither",
+        )
+    if longitude and latitude:
+        location = {"longitude": longitude, "latitude": latitude}
+        shop, deliverable = shop_details_for_user(
+            db, shop_id=shop_id, location=location
+        )
+    elif address_id:
+        if address := get_address_by_id(db, id=address_id):
+            location = {"longitude": address.longitude, "latitude": address.latitude}
+            shop, deliverable = shop_details_for_user(
+                db, shop_id=shop_id, location=location
+            )
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="INVALID_LOCATION: addess_id is invalid",
+            )
+    else:
+        shop, deliverable = shop_details_for_user(db, shop_id=shop_id)
+    if shop:
+        return ShopViewForUser(
+            id=shop.id,
+            name=shop.name,
+            address=shop.address,
+            radius_metres=shop.radius_metres,
+            is_available=shop.is_available,
+            deliverable=deliverable,
+        )
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="NOT_FOUND",
+    )

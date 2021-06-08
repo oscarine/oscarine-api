@@ -23,6 +23,18 @@ class ShopDetails(BaseModel):
         orm_mode = True
 
 
+class ShopViewForUser(BaseModel):
+    id: int
+    name: str
+    address: str
+    radius_metres: float
+    is_available: bool
+    deliverable: Optional[bool] = None
+
+    class Config:
+        orm_mode = True
+
+
 class ShopDetailsForUsers(BaseModel):
     id: int
     name: str
