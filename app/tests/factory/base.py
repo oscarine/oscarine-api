@@ -4,8 +4,8 @@ import string
 
 class Base:
     @staticmethod
-    def random_lower_string() -> str:
-        return "".join(random.choices(string.ascii_lowercase, k=32))
+    def random_lower_string(str_length: int = 32) -> str:
+        return "".join(random.choices(string.ascii_lowercase, k=str_length))
 
     def random_email(self) -> str:
         return f"{self.random_lower_string()}@{self.random_lower_string()}.com"
