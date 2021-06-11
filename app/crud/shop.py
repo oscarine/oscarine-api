@@ -1,3 +1,5 @@
+from typing import Dict, Optional, Tuple
+
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy import func
 from sqlalchemy.orm import Session
@@ -26,6 +28,24 @@ def get_shop_by_id(db_session: Session, *, shop_id: int, owner_id: int) -> Shop:
     if shop:
         return shop
     return None
+
+
+def shop_details_for_user(
+    db_session: Session, *, shop_id: int, location: Optional[Dict[str, float]] = None
+) -> Tuple[Shop, bool]:
+    shop: Shop = db_session.query(Shop).filter_by(id=shop_id).first()
+    deliverable: bool = None
+    if shop and location:
+        longitude = location["longitude"]
+        latitude = location["latitude"]
+        point_ewkt = f"SRID=4326;POINT({longitude} {latitude})"
+        calc_query = db_session.query(
+            shop.location.ST_DWithin(
+                func.ST_GeogFromText(point_ewkt), shop.radius_metres
+            ).label("deliverable")
+        ).one()
+        deliverable = calc_query.deliverable
+    return (shop, deliverable)
 
 
 def shops_for_users(db_session: Session, *, longitude: float, latitude: float) -> Shop:
