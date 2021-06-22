@@ -9,7 +9,7 @@ from app.tests.factory.base import Base
 
 
 class ItemFactory(Base):
-    def __init__(self, shop_id: int, owner_id: int) -> None:
+    def __init__(self, shop_id: str, owner_id: int) -> None:
         self.id = None
         self.name = self.random_lower_string()
         self.cost = self.random_integer()

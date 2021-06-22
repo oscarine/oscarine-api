@@ -11,7 +11,7 @@ from pydantic import (
 
 
 class ShopDetails(BaseModel):
-    id: int
+    id: str
     name: str
     address: str
     owner_id: int

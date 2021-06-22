@@ -15,7 +15,7 @@ class Order(Base):
     order_datetime = Column(DateTime, default=datetime.utcnow, nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relation("User", backref="orders")
-    shop_id = Column(Integer, ForeignKey('shops.id'), nullable=False)
+    shop_id = Column(String(length=100), ForeignKey('shops.id'), nullable=False)
     shop = relation("Shop", backref="orders")
     address_id = Column(Integer, ForeignKey('address.id'), nullable=False)
     address = relation("Address", backref="orders")

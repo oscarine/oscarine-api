@@ -33,7 +33,7 @@ class ItemResponseForOwner(BaseModel):
     category: str
     item_available: bool
     order_count: int
-    shop_id: int
+    shop_id: str
     owner_id: int
 
     class Config:

@@ -16,7 +16,7 @@ class Item(Base):
     category = Column(String(length=25))
     order_count = Column(Integer, default=0)
     item_available = Column(Boolean, default=True)
-    shop_id = Column(Integer, ForeignKey('shops.id'), nullable=False)
+    shop_id = Column(String(length=100), ForeignKey('shops.id'), nullable=False)
     shop = relation("Shop", back_populates="items")
     owner_id = Column(Integer, ForeignKey('owner.id'), nullable=False)
     owner = relation("Owner", back_populates="items")
