@@ -24,7 +24,7 @@ class ShopDetails(BaseModel):
 
 
 class ShopViewForUser(BaseModel):
-    id: int
+    id: str
     name: str
     address: str
     radius_metres: float
@@ -36,7 +36,7 @@ class ShopViewForUser(BaseModel):
 
 
 class ShopDetailsForUsers(BaseModel):
-    id: int
+    id: str
     name: str
     address: str
     phone_number: Optional[str]

@@ -85,7 +85,7 @@ async def get_items_for_owner(
 @router.get("/items-list/{shop_id}", response_model=List[ItemResponseForUser])
 async def get_items_for_user(
     *,
-    shop_id: PositiveInt,
+    shop_id: constr(to_lower=True, min_length=8, max_length=100),
     db: Session = Depends(get_db),
 ):
     if items := items_by_shop_id(db, shop_id=shop_id):
