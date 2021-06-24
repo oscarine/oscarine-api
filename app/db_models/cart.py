@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from sqlalchemy import Column, ForeignKey, Integer, UniqueConstraint
+from sqlalchemy import Column, ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID, ExcludeConstraint
 
 from app.db.base_class import Base
@@ -28,6 +28,6 @@ class Cart(Base):
 
     id = Column(UUID(as_uuid=True), default=uuid4, primary_key=True, index=True)
     item_id = Column(Integer, ForeignKey('items.id'), nullable=False, index=True)
-    shop_id = Column(Integer, ForeignKey('shops.id'), nullable=False)
+    shop_id = Column(String(length=100), ForeignKey('shops.id'), nullable=False)
     item_quantity = Column(Integer, default=1, nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False, index=True)

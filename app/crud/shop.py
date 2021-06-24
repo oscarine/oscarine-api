@@ -23,7 +23,7 @@ def register_new_shop(
     return shop
 
 
-def get_shop_by_id(db_session: Session, *, shop_id: int, owner_id: int) -> Shop:
+def get_shop_by_id(db_session: Session, *, shop_id: str, owner_id: int) -> Shop:
     shop = db_session.query(Shop).filter_by(id=shop_id, owner_id=owner_id).first()
     if shop:
         return shop
@@ -31,7 +31,7 @@ def get_shop_by_id(db_session: Session, *, shop_id: int, owner_id: int) -> Shop:
 
 
 def shop_details_for_user(
-    db_session: Session, *, shop_id: int, location: Optional[Dict[str, float]] = None
+    db_session: Session, *, shop_id: str, location: Optional[Dict[str, float]] = None
 ) -> Tuple[Shop, bool]:
     shop: Shop = db_session.query(Shop).filter_by(id=shop_id).first()
     deliverable: bool = None
@@ -56,7 +56,7 @@ def shops_for_users(db_session: Session, *, longitude: float, latitude: float) -
     return shops
 
 
-def shop_by_id(db_session: Session, *, shop_id: int) -> Shop:
+def shop_by_id(db_session: Session, *, shop_id: str) -> Shop:
     if shop := db_session.query(Shop).filter_by(id=shop_id).first():
         return shop
     return None

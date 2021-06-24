@@ -1,7 +1,7 @@
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import PositiveInt
+from pydantic import PositiveInt, constr
 from sqlalchemy.orm import Session
 
 from app.api.utils.db import get_db
@@ -24,7 +24,7 @@ router = APIRouter()
 @router.post("/items/{shop_id}", response_model=ItemResponseForOwner, status_code=201)
 async def add_item_to_shop(
     *,
-    shop_id: PositiveInt,
+    shop_id: constr(to_lower=True, min_length=8, max_length=100),
     db: Session = Depends(get_db),
     data: Item,
     current_owner: Owner = Depends(get_current_owner),
@@ -66,7 +66,7 @@ async def edit_item(
 @router.get("/items/{shop_id}", response_model=List[ItemResponseForOwner])
 async def get_items_for_owner(
     *,
-    shop_id: PositiveInt,
+    shop_id: constr(to_lower=True, min_length=8, max_length=100),
     db: Session = Depends(get_db),
     current_owner: Owner = Depends(get_current_owner),
 ):
@@ -85,7 +85,7 @@ async def get_items_for_owner(
 @router.get("/items-list/{shop_id}", response_model=List[ItemResponseForUser])
 async def get_items_for_user(
     *,
-    shop_id: PositiveInt,
+    shop_id: constr(to_lower=True, min_length=8, max_length=100),
     db: Session = Depends(get_db),
 ):
     if items := items_by_shop_id(db, shop_id=shop_id):

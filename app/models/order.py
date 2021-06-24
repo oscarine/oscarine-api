@@ -11,7 +11,7 @@ class OrderedItem(BaseModel):
 
 
 class CreateOrder(BaseModel):
-    shop_id: PositiveInt
+    shop_id: constr(to_lower=True, min_length=8, max_length=100)
     address_id: PositiveInt
     user_instructions: Optional[constr(min_length=1, max_length=150)]
     ordered_items: List[OrderedItem]
@@ -28,7 +28,7 @@ class OrderedItemDetails(BaseModel):
 
 class OrderDetails(BaseModel):
     id: int
-    shop_id: int
+    shop_id: str
     address_id: int
     user_id: int
     order_datetime: datetime

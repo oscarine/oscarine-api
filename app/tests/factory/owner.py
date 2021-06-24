@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 
 from app.api.utils.otp import generate_random_otp
+from app.core.jwt import create_access_token
 from app.core.security import get_password_hash
 from app.db_models.owner import Owner
 from app.tests.factory.base import Base
@@ -23,3 +24,6 @@ class OwnerFactory(Base):
         db.commit()
         db.refresh(owner)
         self.id = owner.id
+
+    def get_auth_token(self) -> str:
+        return create_access_token(data={"owner_id": self.id})

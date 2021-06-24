@@ -20,7 +20,7 @@ def get_available_item(db_session: Session, *, item_id: int):
     )
 
 
-def item_by_name_and_shop(db_session: Session, *, shop_id: int, name: str) -> Item:
+def item_by_name_and_shop(db_session: Session, *, shop_id: str, name: str) -> Item:
     item = db_session.query(Item).filter_by(shop_id=shop_id, name=name).first()
     if item:
         return item
@@ -28,7 +28,7 @@ def item_by_name_and_shop(db_session: Session, *, shop_id: int, name: str) -> It
 
 
 def add_item(
-    db_session: Session, *, shop_id: int, owner_id: int, data: PydanticItem
+    db_session: Session, *, shop_id: str, owner_id: int, data: PydanticItem
 ) -> Item:
     item = Item()
     data = jsonable_encoder(data, exclude_none=True)
@@ -60,7 +60,7 @@ def update_item(db_session: Session, *, item: Item, data: UpdateItem) -> Item:
     return item
 
 
-def items_by_shop_id(db_session: Session, *, shop_id: int) -> List[Item]:
+def items_by_shop_id(db_session: Session, *, shop_id: str) -> List[Item]:
     items = db_session.query(Item).filter_by(shop_id=shop_id).all()
     if items:
         return items
@@ -68,7 +68,7 @@ def items_by_shop_id(db_session: Session, *, shop_id: int) -> List[Item]:
 
 
 def item_by_ids_and_shop(
-    db_session: Session, *, shop_id: int, ids: List[int]
+    db_session: Session, *, shop_id: str, ids: List[int]
 ) -> List[Item]:
     items = (
         db_session.query(Item)

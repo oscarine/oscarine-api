@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import PositiveInt, confloat
+from pydantic import PositiveInt, confloat, constr
 from sqlalchemy.orm import Session
 
 from app.api.utils.db import get_db
@@ -53,7 +53,7 @@ async def list_of_shops(
 @router.get("/shops/{shop_id}", response_model=ShopDetails)
 async def shop_by_id(
     *,
-    shop_id: PositiveInt,
+    shop_id: constr(to_lower=True, min_length=8, max_length=100),
     db: Session = Depends(get_db),
     current_owner: DBOwnerModel = Depends(get_current_owner),
 ):
@@ -104,7 +104,7 @@ async def list_of_shops_for_users(
 @router.patch("/shops/{shop_id}", response_model=ShopDetails)
 async def owner_update_shop(
     *,
-    shop_id: PositiveInt,
+    shop_id: constr(to_lower=True, min_length=8, max_length=100),
     db: Session = Depends(get_db),
     data: ShopUpdate,
     current_owner: DBOwnerModel = Depends(get_current_owner),
@@ -118,7 +118,7 @@ async def owner_update_shop(
 @router.get("/shop-details", response_model=ShopViewForUser, status_code=200)
 async def get_shop_details_for_users(
     *,
-    shop_id: PositiveInt,
+    shop_id: constr(to_lower=True, min_length=8, max_length=100),
     longitude: Optional[confloat(gt=-180, lt=180)] = None,
     latitude: Optional[confloat(gt=-90, lt=90)] = None,
     address_id: Optional[PositiveInt] = None,
