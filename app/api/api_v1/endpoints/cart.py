@@ -11,6 +11,7 @@ from app.api.utils.security import get_current_user
 from app.crud.cart import (
     add_cart_item,
     delete_cart_item,
+    empty_cart,
     get_cart_item,
     get_cart_items_detailed,
     update_cart_item,
@@ -24,7 +25,7 @@ from app.models.cart import (
     CartItemDetail,
     CartResponse,
     CartUpdateChoiceEnum,
-    DeleteCartItemResponse,
+    DeleteCartResponse,
     UpdateCartItem,
     ViewCartResponse,
 )
@@ -125,9 +126,7 @@ async def view_cart(
     )
 
 
-@router.delete(
-    "/cart/{item_id}", response_model=DeleteCartItemResponse, status_code=200
-)
+@router.delete("/cart/{item_id}", response_model=DeleteCartResponse, status_code=200)
 async def delete_item_from_cart(
     *,
     item_id: PositiveInt,
@@ -135,4 +134,19 @@ async def delete_item_from_cart(
     current_user: User = Depends(get_current_user),
 ):
     delete_cart_item(db, user_id=current_user.id, item_id=item_id)
-    return DeleteCartItemResponse(message="DELETED")
+    return DeleteCartResponse(message="DELETED")
+
+
+@router.delete("/cart", response_model=DeleteCartResponse, status_code=200)
+async def empty_current_cart(
+    *,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    For deleting all the items from cart.
+    """
+    count = empty_cart(db, user_id=current_user.id)
+    return DeleteCartResponse(
+        message=f"DELETED: {count} unique items removed from cart"
+    )

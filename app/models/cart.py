@@ -41,5 +41,5 @@ class ViewCartResponse(BaseModel):
     items: List[CartItemDetail]
 
 
-class DeleteCartItemResponse(BaseModel):
+class DeleteCartResponse(BaseModel):
     message: str
