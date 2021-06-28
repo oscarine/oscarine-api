@@ -40,3 +40,13 @@ def get_cart_items_detailed(
 def delete_cart_item(db_session: Session, user_id: int, item_id: int) -> None:
     db_session.query(Cart).filter_by(user_id=user_id, item_id=item_id).delete()
     db_session.commit()
+
+
+def empty_cart(db_session: Session, user_id: int) -> int:
+    unique_items_count = (
+        db_session.query(Cart)
+        .filter_by(user_id=user_id)
+        .delete(synchronize_session=False)
+    )
+    db_session.commit()
+    return unique_items_count

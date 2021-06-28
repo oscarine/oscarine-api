@@ -397,3 +397,38 @@ def test_delete_cart_item(client: TestClient, db_session: Session):
     assert r.status_code == 200
     assert response_json['message'] == "DELETED"
     assert db_cart_item is None
+
+
+def test_empty_current_cart(client: TestClient, db_session: Session):
+    owner = OwnerFactory()
+    owner.create(db_session)
+    shop = ShopFactory(
+        longitude=78.0705664, latitude=27.8983082, owner_id=owner.id, radius_metres=500
+    )
+    shop.create(db_session)
+
+    item1 = ItemFactory(shop_id=shop.id, owner_id=owner.id)
+    item1.create(db_session)
+
+    item2 = ItemFactory(shop_id=shop.id, owner_id=owner.id)
+    item2.create(db_session)
+
+    user = UserFactory()
+    user.create(db_session)
+    token = user.get_auth_token()
+
+    cart_item1 = CartFactory(item_id=item1.id, shop_id=shop.id, user_id=user.id)
+    cart_item1.create(db_session)
+
+    cart_item2 = CartFactory(item_id=item2.id, shop_id=shop.id, user_id=user.id)
+    cart_item2.create(db_session)
+
+    headers = {'Authorization': f'Bearer {token}'}
+    r = client.delete(f"{config.API_V1_STR}/cart", headers=headers)
+    response_json = r.json()
+
+    assert cart_item1.get_by_item_id(db_session, item1.id) is None
+    assert cart_item2.get_by_item_id(db_session, item2.id) is None
+
+    assert r.status_code == 200
+    assert response_json["message"] == "DELETED: 2 unique items removed from cart"
