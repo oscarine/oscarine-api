@@ -31,6 +31,6 @@ def test_shop_db_model_constraints(db_session: Session):
     assert_non_nullable(shop, "owner_id")
     assert_non_nullable(shop, "location")
     assert_non_nullable(shop, "radius_metres")
+    assert_non_nullable(shop, "is_available")
 
     assert_nullable(shop, "phone_number")
-    assert_nullable(shop, "is_available")

@@ -13,7 +13,7 @@ class Shop(Base):
 
     id = Column(String(length=100), primary_key=True, index=True)
     name = Column(String(length=50), nullable=False)
-    is_available = Column(Boolean, default=True)
+    is_available = Column(Boolean, default=True, nullable=False)
     phone_number = Column(String(15))
     address = Column(String(50), nullable=False)
     owner_id = Column(Integer, ForeignKey('owner.id'), nullable=False)
