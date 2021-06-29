@@ -713,7 +713,7 @@ sqlcipher = ["sqlcipher3-binary"]
 
 [[package]]
 name = "sqlalchemy-utils"
-version = "0.37.7"
+version = "0.37.8"
 description = "Various utility functions for SQLAlchemy."
 category = "main"
 optional = false
@@ -733,8 +733,8 @@ intervals = ["intervals (>=0.7.1)"]
 password = ["passlib (>=1.6,<2.0)"]
 pendulum = ["pendulum (>=2.0.5)"]
 phone = ["phonenumbers (>=5.9.2)"]
-test = ["pytest (>=2.7.1)", "Pygments (>=1.2)", "Jinja2 (>=2.3)", "docutils (>=0.10)", "flexmock (>=0.9.7)", "mock (==2.0.0)", "psycopg2 (>=2.5.1)", "psycopg2cffi (>=2.8.1)", "pg8000 (>=1.12.4)", "pytz (>=2014.2)", "python-dateutil (>=2.6)", "pymysql", "flake8 (>=2.4.0)", "isort (>=4.2.2)", "pyodbc"]
-test_all = ["Babel (>=1.3)", "Jinja2 (>=2.3)", "Pygments (>=1.2)", "anyjson (>=0.3.3)", "arrow (>=0.3.4)", "colour (>=0.0.4)", "cryptography (>=0.6)", "docutils (>=0.10)", "flake8 (>=2.4.0)", "flexmock (>=0.9.7)", "furl (>=0.4.1)", "intervals (>=0.7.1)", "isort (>=4.2.2)", "mock (==2.0.0)", "passlib (>=1.6,<2.0)", "pendulum (>=2.0.5)", "pg8000 (>=1.12.4)", "phonenumbers (>=5.9.2)", "psycopg2 (>=2.5.1)", "psycopg2cffi (>=2.8.1)", "pymysql", "pyodbc", "pytest (>=2.7.1)", "python-dateutil", "python-dateutil (>=2.6)", "pytz (>=2014.2)"]
+test = ["pytest (>=2.7.1)", "Pygments (>=1.2)", "Jinja2 (>=2.3)", "docutils (>=0.10)", "flexmock (>=0.9.7)", "mock (==2.0.0)", "psycopg2 (>=2.5.1)", "psycopg2cffi (>=2.8.1)", "pg8000 (>=1.12.4)", "pytz (>=2014.2)", "python-dateutil (>=2.6)", "pymysql", "flake8 (>=2.4.0)", "isort (>=4.2.2)", "pyodbc", "backports.zoneinfo"]
+test_all = ["Babel (>=1.3)", "Jinja2 (>=2.3)", "Pygments (>=1.2)", "anyjson (>=0.3.3)", "arrow (>=0.3.4)", "colour (>=0.0.4)", "cryptography (>=0.6)", "docutils (>=0.10)", "flake8 (>=2.4.0)", "flexmock (>=0.9.7)", "furl (>=0.4.1)", "intervals (>=0.7.1)", "isort (>=4.2.2)", "mock (==2.0.0)", "passlib (>=1.6,<2.0)", "pendulum (>=2.0.5)", "pg8000 (>=1.12.4)", "phonenumbers (>=5.9.2)", "psycopg2 (>=2.5.1)", "psycopg2cffi (>=2.8.1)", "pymysql", "pyodbc", "pytest (>=2.7.1)", "python-dateutil", "python-dateutil (>=2.6)", "pytz (>=2014.2)", "backports.zoneinfo"]
 timezone = ["python-dateutil"]
 url = ["furl (>=0.4.1)"]
 
@@ -921,7 +921,7 @@ python-versions = ">=3.6.1"
 [metadata]
 lock-version = "1.1"
 python-versions = "3.8.5"
-content-hash = "06982013e861ece4eaac0e6671ea1a4bdc6afb2e39dadc2d442e2e18ad76f399"
+content-hash = "2b78949d2b58de443a99298772f1345203ed40a2be4c10ee011d80779dd76c5d"
 
 [metadata.files]
 aiosmtplib = [
@@ -1454,8 +1454,8 @@ sqlalchemy = [
     {file = "SQLAlchemy-1.4.20.tar.gz", hash = "sha256:38ee3a266afef2978e82824650457f70c5d74ec0cadec1b10fe5ed6f038eb5d0"},
 ]
 sqlalchemy-utils = [
-    {file = "SQLAlchemy-Utils-0.37.7.tar.gz", hash = "sha256:716d9d9592258db9651a511d03e6b2553242c2a440855ee3f7d5812bbb55d9eb"},
-    {file = "SQLAlchemy_Utils-0.37.7-py3-none-any.whl", hash = "sha256:afd204ed051f53302cd8789cc29c9b15bf458f8baef14a9052bf2823f855d2cb"},
+    {file = "SQLAlchemy-Utils-0.37.8.tar.gz", hash = "sha256:a6aaee154f798be4e479af0ceffaa5034d35fcf6f40707c0947d21bde64e05e5"},
+    {file = "SQLAlchemy_Utils-0.37.8-py3-none-any.whl", hash = "sha256:b1bf67d904fed16b16ef1dc07f03e5e93a6b23899f920f6b41c09be45fbb85f2"},
 ]
 starlette = [
     {file = "starlette-0.14.2-py3-none-any.whl", hash = "sha256:3c8e48e52736b3161e34c9f0e8153b4f32ec5d8995a3ee1d59410d92f75162ed"},

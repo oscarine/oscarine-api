@@ -59,7 +59,7 @@ aiosmtplib = "1.1.6"
 GeoAlchemy2 = "0.9.1"
 python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
-SQLAlchemy-Utils = "0.37.7"
+SQLAlchemy-Utils = "0.37.8"
 python-slugify = "^5.0.2"
 
 [tool.poetry.dev-dependencies]
