@@ -42,7 +42,6 @@ async def register_shop(
 @router.get("/shops", response_model=List[ShopDetails])
 async def list_of_shops(
     *,
-    db: Session = Depends(get_db),
     current_owner: DBOwnerModel = Depends(get_current_owner),
 ):
     if shops := current_owner.shops:
