@@ -28,8 +28,14 @@ def test_add_item_in_cart(client: TestClient, db_session: Session):
     r = client.post(f"{config.API_V1_STR}/cart", json=post_data, headers=headers)
     response_json = r.json()
     assert r.status_code == 201
-    assert response_json['item_id'] == item.id
-    assert response_json['item_quantity'] == 1
+    assert response_json['total_items'] == 1
+    assert response_json['unique_items'] == 1
+    assert response_json['total_cost'] == item.cost * 1
+    assert response_json['items'][0]['id'] == item.id
+    assert response_json['items'][0]['name'] == item.name
+    assert response_json['items'][0]['cost'] == item.cost
+    assert response_json['items'][0]['item_quantity'] == 1
+    assert response_json['items'][0]['item_available'] is True
 
 
 def test_add_item_in_cart_when_unauthenticated(client: TestClient, db_session: Session):
@@ -195,8 +201,14 @@ def test_plus_action_on_item_in_cart(client: TestClient, db_session: Session):
     db_cart_item = cart.get_by_item_id(db_session, item_id=item.id)
 
     assert r.status_code == 200
-    assert response_json['item_id'] == item.id
-    assert response_json['item_quantity'] == 2
+    assert response_json['total_items'] == 2
+    assert response_json['unique_items'] == 1
+    assert response_json['total_cost'] == item.cost * 2
+    assert response_json['items'][0]['id'] == item.id
+    assert response_json['items'][0]['name'] == item.name
+    assert response_json['items'][0]['cost'] == item.cost
+    assert response_json['items'][0]['item_quantity'] == 2
+    assert response_json['items'][0]['item_available'] is True
     assert db_cart_item.item_quantity == 2
 
 
@@ -260,8 +272,14 @@ def test_minus_action_on_item_in_cart(client: TestClient, db_session: Session):
     db_cart_item = cart.get_by_item_id(db_session, item_id=item.id)
 
     assert r.status_code == 200
-    assert response_json['item_id'] == item.id
-    assert response_json['item_quantity'] == 3
+    assert response_json['total_items'] == 3
+    assert response_json['unique_items'] == 1
+    assert response_json['total_cost'] == item.cost * 3
+    assert response_json['items'][0]['id'] == item.id
+    assert response_json['items'][0]['name'] == item.name
+    assert response_json['items'][0]['cost'] == item.cost
+    assert response_json['items'][0]['item_quantity'] == 3
+    assert response_json['items'][0]['item_available'] is True
     assert db_cart_item.item_quantity == 3
 
 
@@ -377,25 +395,39 @@ def test_delete_cart_item(client: TestClient, db_session: Session):
         longitude=78.0705664, latitude=27.8983082, owner_id=owner.id, radius_metres=500
     )
     shop.create(db_session)
-    item = ItemFactory(shop_id=shop.id, owner_id=owner.id)
-    item.create(db_session)
+
+    item1 = ItemFactory(shop_id=shop.id, owner_id=owner.id)
+    item1.create(db_session)
+    item2 = ItemFactory(shop_id=shop.id, owner_id=owner.id)
+    item2.create(db_session)
 
     user = UserFactory()
     user.create(db_session)
     token = user.get_auth_token()
 
-    cart = CartFactory(item_id=item.id, shop_id=shop.id, user_id=user.id)
+    cart = CartFactory(item_id=item1.id, shop_id=shop.id, user_id=user.id)
     cart.create(db_session)
     cart.update(db_session, values={'item_quantity': 5})
 
+    cart = CartFactory(item_id=item2.id, shop_id=shop.id, user_id=user.id)
+    cart.create(db_session)
+    cart.update(db_session, values={'item_quantity': 7})
+
     headers = {'Authorization': f'Bearer {token}'}
-    r = client.delete(f"{config.API_V1_STR}/cart/{item.id}", headers=headers)
+    r = client.delete(f"{config.API_V1_STR}/cart/{item1.id}", headers=headers)
     response_json = r.json()
 
-    db_cart_item = cart.get_by_item_id(db_session, item_id=item.id)
+    db_cart_item = cart.get_by_item_id(db_session, item_id=item1.id)
 
     assert r.status_code == 200
-    assert response_json['message'] == "DELETED"
+    assert response_json['total_items'] == 7
+    assert response_json['unique_items'] == 1
+    assert response_json['total_cost'] == item2.cost * 7
+    assert response_json['items'][0]['id'] == item2.id
+    assert response_json['items'][0]['name'] == item2.name
+    assert response_json['items'][0]['cost'] == item2.cost
+    assert response_json['items'][0]['item_quantity'] == 7
+    assert response_json['items'][0]['item_available'] is True
     assert db_cart_item is None
 
 

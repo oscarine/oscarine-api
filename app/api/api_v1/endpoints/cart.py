@@ -1,5 +1,3 @@
-from typing import List, Tuple
-
 from fastapi import APIRouter, Depends, status
 from fastapi.exceptions import HTTPException
 from pydantic.types import PositiveInt
@@ -17,13 +15,9 @@ from app.crud.cart import (
     update_cart_item,
 )
 from app.crud.item import get_available_item
-from app.db_models.cart import Cart
-from app.db_models.item import Item
 from app.db_models.user import User
 from app.models.cart import (
     CartItem,
-    CartItemDetail,
-    CartResponse,
     CartUpdateChoiceEnum,
     DeleteCartResponse,
     UpdateCartItem,
@@ -33,7 +27,7 @@ from app.models.cart import (
 router = APIRouter()
 
 
-@router.post("/cart", response_model=CartResponse, status_code=201)
+@router.post("/cart", response_model=ViewCartResponse, status_code=201)
 async def add_item_in_cart(
     *,
     db: Session = Depends(get_db),
@@ -60,16 +54,18 @@ async def add_item_in_cart(
             status_code=status.HTTP_400_BAD_REQUEST,
             debug=False,
         ):
-            return add_cart_item(
-                db, user_id=current_user.id, shop_id=shop.id, item_id=item.id
+            add_cart_item(db, user_id=current_user.id, shop_id=shop.id, item_id=item.id)
+            cart_info: ViewCartResponse = get_cart_items_detailed(
+                db, user_id=current_user.id
             )
+            return cart_info
     raise HTTPException(
         status_code=status.HTTP_400_BAD_REQUEST,
         detail="NOT_AVAILABLE: Shop or item not available currently",
     )
 
 
-@router.patch("/cart", response_model=CartResponse, status_code=200)
+@router.patch("/cart", response_model=ViewCartResponse, status_code=200)
 async def update_item_in_cart(
     *,
     db: Session = Depends(get_db),
@@ -82,8 +78,11 @@ async def update_item_in_cart(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="INVALID_ACTION: Item quantity cannot be less than unity",
             )
-        updated_item = update_cart_item(db, cart_item=item, data=data)
-        return updated_item
+        update_cart_item(db, cart_item=item, data=data)
+        cart_info: ViewCartResponse = get_cart_items_detailed(
+            db, user_id=current_user.id
+        )
+        return cart_info
     raise HTTPException(
         status_code=status.HTTP_400_BAD_REQUEST,
         detail="INVALID_ITEM: No such cart item for this user",
@@ -96,37 +95,11 @@ async def view_cart(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    cart_info: List[Tuple[Cart, Item]] = get_cart_items_detailed(
-        db, user_id=current_user.id
-    )
-    total_items: int = 0
-    total_cost: float = 0
-    unique_items: int = len(cart_info)
-    items: List[CartItemDetail] = []
-    if unique_items <= 0:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="EMPTY_CART")
-    for cart_item in cart_info:
-        cart, item = cart_item
-        total_items += cart.item_quantity
-        total_cost += cart.item_quantity * item.cost
-        items.append(
-            CartItemDetail(
-                id=item.id,
-                name=item.name,
-                cost=item.cost,
-                item_quantity=cart.item_quantity,
-                item_available=item.item_available,
-            )
-        )
-    return ViewCartResponse(
-        total_items=total_items,
-        unique_items=unique_items,
-        total_cost=total_cost,
-        items=items,
-    )
+    cart_info: ViewCartResponse = get_cart_items_detailed(db, user_id=current_user.id)
+    return cart_info
 
 
-@router.delete("/cart/{item_id}", response_model=DeleteCartResponse, status_code=200)
+@router.delete("/cart/{item_id}", response_model=ViewCartResponse, status_code=200)
 async def delete_item_from_cart(
     *,
     item_id: PositiveInt,
@@ -134,7 +107,8 @@ async def delete_item_from_cart(
     current_user: User = Depends(get_current_user),
 ):
     delete_cart_item(db, user_id=current_user.id, item_id=item_id)
-    return DeleteCartResponse(message="DELETED")
+    cart_info: ViewCartResponse = get_cart_items_detailed(db, user_id=current_user.id)
+    return cart_info
 
 
 @router.delete("/cart", response_model=DeleteCartResponse, status_code=200)
