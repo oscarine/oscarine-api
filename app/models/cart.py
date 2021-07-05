@@ -4,14 +4,6 @@ from typing import List
 from pydantic import BaseModel, PositiveInt
 
 
-class CartResponse(BaseModel):
-    item_id: int
-    item_quantity: int
-
-    class Config:
-        orm_mode = True
-
-
 class CartItem(BaseModel):
     item_id: PositiveInt
 
