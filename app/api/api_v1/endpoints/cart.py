@@ -72,17 +72,18 @@ async def update_item_in_cart(
     data: UpdateCartItem,
     current_user: User = Depends(get_current_user),
 ):
-    if item := get_cart_item(db, user_id=current_user.id, item_id=data.item_id):
-        if item.item_quantity <= 1 and data.action == CartUpdateChoiceEnum.minus:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="INVALID_ACTION: Item quantity cannot be less than unity",
-            )
-        update_cart_item(db, cart_item=item, data=data)
+    if cart_item := get_cart_item(db, user_id=current_user.id, item_id=data.item_id):
+
+        if cart_item.item_quantity <= 1 and data.action == CartUpdateChoiceEnum.minus:
+            delete_cart_item(db, user_id=current_user.id, item_id=cart_item.item_id)
+        else:
+            update_cart_item(db, cart_item=cart_item, data=data)
+
         cart_info: ViewCartResponse = get_cart_items_detailed(
             db, user_id=current_user.id
         )
         return cart_info
+
     raise HTTPException(
         status_code=status.HTTP_400_BAD_REQUEST,
         detail="INVALID_ITEM: No such cart item for this user",
