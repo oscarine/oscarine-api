@@ -238,12 +238,55 @@ def test_minus_action_on_single_item_in_cart_error(
 
     db_cart_item = cart.get_by_item_id(db_session, item_id=item.id)
 
-    assert r.status_code == 400
-    assert (
-        response_json['detail']
-        == 'INVALID_ACTION: Item quantity cannot be less than unity'
+    assert r.status_code == 404
+    assert response_json['detail'] == 'EMPTY_CART'
+    assert db_cart_item is None
+
+
+def test_minus_action_on_single_item_when_multiple_items_in_cart(
+    client: TestClient, db_session: Session
+):
+    owner = OwnerFactory()
+    owner.create(db_session)
+    shop = ShopFactory(
+        longitude=78.0705664, latitude=27.8983082, owner_id=owner.id, radius_metres=500
     )
-    assert db_cart_item.item_quantity == 1
+    shop.create(db_session)
+
+    item1 = ItemFactory(shop_id=shop.id, owner_id=owner.id)
+    item1.create(db_session)
+    item2 = ItemFactory(shop_id=shop.id, owner_id=owner.id)
+    item2.create(db_session)
+
+    user = UserFactory()
+    user.create(db_session)
+    token = user.get_auth_token()
+
+    cart = CartFactory(item_id=item1.id, shop_id=shop.id, user_id=user.id)
+    cart.create(db_session)
+    cart.update(db_session, values={'item_quantity': 4})
+    cart = CartFactory(item_id=item2.id, shop_id=shop.id, user_id=user.id)
+    cart.create(db_session)
+
+    patch_data = {"item_id": item2.id, "action": "minus"}
+    headers = {'Authorization': f'Bearer {token}'}
+    r = client.patch(f"{config.API_V1_STR}/cart", json=patch_data, headers=headers)
+    response_json = r.json()
+
+    db_cart_item1 = cart.get_by_item_id(db_session, item_id=item1.id)
+    db_cart_item2 = cart.get_by_item_id(db_session, item_id=item2.id)
+
+    assert r.status_code == 200
+    assert response_json['total_items'] == 4
+    assert response_json['unique_items'] == 1
+    assert response_json['total_cost'] == item1.cost * 4
+    assert response_json['items'][0]['id'] == item1.id
+    assert response_json['items'][0]['name'] == item1.name
+    assert response_json['items'][0]['cost'] == item1.cost
+    assert response_json['items'][0]['item_quantity'] == 4
+    assert response_json['items'][0]['item_available'] is True
+    assert db_cart_item1 is not None
+    assert db_cart_item2 is None
 
 
 def test_minus_action_on_item_in_cart(client: TestClient, db_session: Session):
@@ -262,7 +305,7 @@ def test_minus_action_on_item_in_cart(client: TestClient, db_session: Session):
 
     cart = CartFactory(item_id=item.id, shop_id=shop.id, user_id=user.id)
     cart.create(db_session)
-    cart.update(db_session, values={'item_quantity': 4})
+    cart.update(db_session, values={'item_quantity': 2})
 
     patch_data = {"item_id": item.id, "action": "minus"}
     headers = {'Authorization': f'Bearer {token}'}
@@ -272,15 +315,15 @@ def test_minus_action_on_item_in_cart(client: TestClient, db_session: Session):
     db_cart_item = cart.get_by_item_id(db_session, item_id=item.id)
 
     assert r.status_code == 200
-    assert response_json['total_items'] == 3
+    assert response_json['total_items'] == 1
     assert response_json['unique_items'] == 1
-    assert response_json['total_cost'] == item.cost * 3
+    assert response_json['total_cost'] == item.cost * 1
     assert response_json['items'][0]['id'] == item.id
     assert response_json['items'][0]['name'] == item.name
     assert response_json['items'][0]['cost'] == item.cost
-    assert response_json['items'][0]['item_quantity'] == 3
+    assert response_json['items'][0]['item_quantity'] == 1
     assert response_json['items'][0]['item_available'] is True
-    assert db_cart_item.item_quantity == 3
+    assert db_cart_item.item_quantity == 1
 
 
 def test_invalid_action_on_item_update_in_cart(client: TestClient, db_session: Session):

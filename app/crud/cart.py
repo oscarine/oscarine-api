@@ -25,10 +25,12 @@ def get_cart_item(db_session: Session, user_id: int, item_id: int) -> Cart:
 
 
 def update_cart_item(db_session: Session, cart_item: Cart, data: UpdateCartItem):
-    if data.action == CartUpdateChoiceEnum.minus and cart_item.item_quantity >= 1:
+    if data.action == CartUpdateChoiceEnum.minus and cart_item.item_quantity > 1:
         cart_item.item_quantity = cart_item.item_quantity - 1
     elif data.action == CartUpdateChoiceEnum.plus:
         cart_item.item_quantity = cart_item.item_quantity + 1
+    else:
+        raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED)
     db_session.add(cart_item)
     db_session.commit()
 
