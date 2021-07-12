@@ -71,7 +71,7 @@ pyupgrade = "2.20.0"
 vulture = "^2.3"
 # For testing
 pytest = "6.2.4"
-tenacity = "7.0.0"
+tenacity = "8.0.1"
 requests = "2.25.1"
 
 [build-system]
