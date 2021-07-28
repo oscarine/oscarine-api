@@ -251,7 +251,7 @@ python-versions = "*"
 
 [[package]]
 name = "geoalchemy2"
-version = "0.9.1"
+version = "0.9.3"
 description = "Using SQLAlchemy with Spatial Databases"
 category = "main"
 optional = false
@@ -922,7 +922,7 @@ python-versions = ">=3.6.1"
 [metadata]
 lock-version = "1.1"
 python-versions = "3.8.5"
-content-hash = "8cf56c2dcaba50ce16c59581734ecc58bba9eb82b437c499313dc20ee2f86cc2"
+content-hash = "2791199a5a7370e00ff8a16441b0d92a6526ce542422643371e722dbebf8e8e5"
 
 [metadata.files]
 aiosmtplib = [
@@ -1072,8 +1072,8 @@ filelock = [
     {file = "filelock-3.0.12.tar.gz", hash = "sha256:18d82244ee114f543149c66a6e0c14e9c4f8a1044b5cdaadd0f82159d6a6ff59"},
 ]
 geoalchemy2 = [
-    {file = "GeoAlchemy2-0.9.1-py2.py3-none-any.whl", hash = "sha256:1984f7b189b1994edad7800154973ebd48a26094376a2c9cd7447133051faf60"},
-    {file = "GeoAlchemy2-0.9.1.tar.gz", hash = "sha256:de0d0b1ff2f7f26ddff0a69d9a33940020707caedd442fa13b28affec842dafb"},
+    {file = "GeoAlchemy2-0.9.3-py2.py3-none-any.whl", hash = "sha256:c4bd303539a756651baff4c5a3094f7cf1f3e990a1f0bc977ff12d040fb71d08"},
+    {file = "GeoAlchemy2-0.9.3.tar.gz", hash = "sha256:56f969cf4ad6629ebcde73e807f7dac0a9375c79991b4f93efab191f37737a00"},
 ]
 greenlet = [
     {file = "greenlet-1.1.0-cp27-cp27m-macosx_10_14_x86_64.whl", hash = "sha256:60848099b76467ef09b62b0f4512e7e6f0a2c977357a036de602b653667f5f4c"},
